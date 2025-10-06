@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Antidiabétiques - IFSI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        html {
+            overflow-y: scroll; /* Force the scrollbar to always be visible, preventing layout shifts */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        /* Animation for page transitions */
+        .page {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Quiz specific styles */
+        .qcm-option.correct {
+            background-image: linear-gradient(to right, #4ade80, #16a34a); /* from-green-400 to-green-600 */
+            color: white;
+            border-color: #15803d; /* green-700 */
+            font-weight: 600;
+        }
+        .qcm-option.incorrect {
+            background-image: linear-gradient(to right, #f87171, #dc2626); /* from-red-400 to-red-600 */
+            color: white;
+            border-color: #b91c1c; /* red-700 */
+            font-weight: 600;
+        }
+        .qcm-option:disabled {
+            cursor: not-allowed;
+        }
+        .qcm-option:disabled:not(.correct):not(.incorrect) {
+            color: #475569; /* slate-600 */
+            background-color: #f1f5f9; /* slate-100 */
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-8">
+    <!-- Main container with rounded corners and shadow -->
+    <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-2xl overflow-hidden">
+        <!-- Header -->
+        <header class="bg-slate-800 text-white p-6 md:p-8">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent pb-2">Les Antidiabétiques</h1>
+                <div class="hidden md:flex text-right font-bold text-slate-300 text-sm">
+                    <p><span class="bg-gradient-to-r from-violet-400 to-indigo-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation bar -->
+        <nav class="bg-white sticky top-0 z-10 p-4 shadow-md">
+            <div class="p-1.5 bg-slate-200/60 rounded-xl grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                <button data-page="generalites" onclick="showPage('generalites')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Généralités</button>
+                <button data-page="dt1" onclick="showPage('dt1')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Diabète Type I</button>
+                <button data-page="insulines" onclick="showPage('insulines')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Insulines</button>
+                <button data-page="dt2" onclick="showPage('dt2')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Diabète Type II</button>
+                <button data-page="ado" onclick="showPage('ado')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">ADO</button>
+                <button data-page="role" onclick="showPage('role')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Rôle Infirmier</button>
+                <button data-page="quiz" onclick="showPage('quiz')" class="nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Quiz</button>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <main class="p-4 sm:p-6 md:p-8">
+            <!-- Section 1: Generalities -->
+            <div id="generalites" class="page">
+                <section class="bg-gradient-to-br from-violet-100 to-purple-100 rounded-2xl p-6 md:p-12">
+                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-violet-500 to-purple-600 bg-clip-text text-transparent">Le Diabète : Généralités</span></h3>
+                    <div class="space-y-8">
+                        <!-- What is diabetes? -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-sky-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="help-circle" class="text-sky-600 w-6 h-6"></i></div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Qu'est-ce que le diabète ?</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Le diabète est une maladie chronique qui apparaît lorsque le pancréas ne produit pas suffisamment d'insuline ou que l'organisme n'utilise pas correctement celle qu'il produit. L'insuline est une hormone qui régule la concentration de sucre dans le sang (glycémie). Une hyperglycémie chronique est un effet courant du diabète non contrôlé qui, avec le temps, endommage gravement de nombreux systèmes organiques.</p>
+                            <div class="grid md:grid-cols-3 gap-4 text-sm mt-4">
+                                <div class="p-4 bg-sky-50 rounded-lg"><h5 class="font-semibold text-sky-800">Type 1</h5><p>Carence absolue en insuline due à une destruction auto-immune des cellules du pancréas.</p></div>
+                                <div class="p-4 bg-sky-50 rounded-lg"><h5 class="font-semibold text-sky-800">Type 2</h5><p>Utilisation inefficace de l'insuline (résistance) et/ou production insuffisante.</p></div>
+                                <div class="p-4 bg-sky-50 rounded-lg"><h5 class="font-semibold text-sky-800">Gestationnel</h5><p>Hyperglycémie apparaissant pendant la grossesse.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Symptoms -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="list-checks" class="text-yellow-600 w-6 h-6"></i></div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Symptômes et Signes d'Alerte</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Les symptômes peuvent apparaître soudainement (Type 1) ou être progressifs et subtils (Type 2).</p>
+                            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-3 text-slate-700 list-inside list-disc">
+                                <li>Soif excessive (polydipsie)</li>
+                                <li>Envie fréquente d'uriner (polyurie)</li>
+                                <li>Faim exagérée (polyphagie)</li>
+                                <li>Perte de poids inexpliquée</li>
+                                <li>Fatigue intense</li>
+                                <li>Vision floue</li>
+                                <li>Cicatrisation lente</li>
+                                <li>Infections fréquentes</li>
+                            </ul>
+                        </div>
+
+                        <!-- Diagnosis -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="microscope" class="text-blue-600 w-6 h-6"></i></div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Diagnostic</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Le diagnostic est posé par une prise de sang pour mesurer la glycémie.</p>
+                            <div class="grid md:grid-cols-3 gap-4 text-sm">
+                                <div class="p-4 bg-blue-50 rounded-lg"><h5 class="font-semibold text-blue-800">Glycémie à jeun</h5><p>Diabète si <strong>≥ 1,26 g/L (7 mmol/L)</strong> à deux reprises.</p></div>
+                                <div class="p-4 bg-blue-50 rounded-lg"><h5 class="font-semibold text-blue-800">Glycémie aléatoire</h5><p>Diabète si <strong>≥ 2 g/L (11,1 mmol/L)</strong> avec des symptômes.</p></div>
+                                <div class="p-4 bg-blue-50 rounded-lg"><h5 class="font-semibold text-blue-800">HbA1c</h5><p>Diabète si <strong>≥ 7%</strong>. Reflète la moyenne glycémique sur 3 mois.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Complications -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-red-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="heart-pulse" class="text-red-600 w-6 h-6"></i></div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Complications à long terme</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">L'hyperglycémie chronique endommage les vaisseaux sanguins, entraînant des complications sévères.</p>
+                            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                                <div class="p-4 bg-red-50 rounded-lg"><h5 class="font-semibold text-red-800">Macroangiopathies</h5><p>Atteinte des gros vaisseaux : AVC, infarctus du myocarde, artérite des membres inférieurs.</p></div>
+                                <div class="p-4 bg-orange-50 rounded-lg"><h5 class="font-semibold text-orange-800">Microangiopathies</h5><p><strong>Rétinopathie</strong> (yeux), <strong>Néphropathie</strong> (reins), <strong>Neuropathie</strong> (nerfs), menant au mal perforant plantaire.</p></div>
+                            </div>
+                        </div>
+
+                        <!-- Monitoring -->
+                         <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                             <div class="flex items-center gap-4 mb-4">
+                                 <div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="clipboard-check" class="text-green-600 w-6 h-6"></i></div>
+                                 <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Surveillance et Objectifs</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Une surveillance régulière est essentielle pour ajuster le traitement et prévenir les complications.</p>
+                            <div class="flex flex-wrap gap-4 text-sm">
+                                <div class="flex-1 min-w-[200px] p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">HbA1c (Hémoglobine glyquée)</h5><p>Reflet de l'équilibre glycémique sur 3 mois. Objectif <strong>&lt; 7%</strong> pour la plupart des patients.</p></div>
+                                <div class="flex-1 min-w-[200px] p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">Surveillance annuelle</h5><p>Fond d'œil, bilan rénal (créatinine, protéinurie), bilan lipidique, examen des pieds, ECG.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <div id="dt1" class="page hidden">
+                <section class="bg-gradient-to-br from-teal-100 to-cyan-100 rounded-2xl p-6 md:p-12">
+                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-teal-500 to-cyan-600 bg-clip-text text-transparent">Diabète de Type I (DID)</span></h3>
+                    <div class="space-y-8">
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6"><div class="flex items-center gap-4 mb-4"><div class="bg-emerald-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="shield-x" class="text-emerald-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Physiopathologie & Clinique</h4></div><p class="text-slate-600 mb-4">Maladie auto-immune menant à la destruction des cellules β du pancréas, provoquant une <strong>carence absolue en insuline</strong>. Touche le sujet jeune (< 20 ans) avec une survenue brutale.</p><div class="p-4 bg-emerald-50 rounded-lg"><h5 class="font-semibold text-emerald-800">Syndrome Cardinal</h5><p class="text-sm">Polyurie (urine abondante), Polydipsie (soif intense), Polyphagie (faim excessive), Amaigrissement.</p></div></div>
+                        
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-violet-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="dna" class="text-violet-600 w-6 h-6"></i>
+                                </div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Étiologie</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Le DT1 est une maladie auto-immune dont les causes exactes combinent des facteurs génétiques et environnementaux.</p>
+                            <div class="p-4 bg-violet-50 rounded-lg text-sm">
+                                <h5 class="font-semibold text-violet-800 mb-2">Facteurs Contributifs</h5>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>Prédisposition génétique :</strong> Présence de certains gènes de prédisposition (système HLA).</li>
+                                    <li><strong>Facteurs environnementaux :</strong> Des infections virales (entérovirus, coxsackie B) pourraient agir comme déclencheurs.</li>
+                                    <li><strong>Réponse auto-immune :</strong> Le système immunitaire produit des auto-anticorps qui détruisent spécifiquement les cellules bêta du pancréas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6"><div class="flex items-center gap-4 mb-4"><div class="bg-orange-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="alert-triangle" class="text-orange-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Complications Aiguës</h4></div><div class="grid md:grid-cols-2 gap-4 text-sm"><div class="p-4 bg-orange-50 rounded-lg"><h5 class="font-semibold text-orange-800">Acidocétose Diabétique</h5><p>Urgence vitale. Carence en insuline → production de corps cétoniques → acidose. 
+                            <BR><strong>Signes :</strong> dyspnée de Kussmaul, haleine cétonique, déshydratation, coma. 
+                            <BR><strong>TTT :</strong> réhydratation + insulinothérapie IV.</p></div>
+                            
+                        <div class="p-4 bg-red-50 rounded-lg"><h5 class="font-semibold text-red-800">Hypoglycémie (< 0,6 g/L)</h5><p>Due au traitement. 
+                            <BR><strong>Signes neurovégétatifs :</strong> sueurs, tremblements, palpitations. 
+                            <BR><strong>Signes de souffrance cérébrale :</strong> troubles de la vue, confusion, coma. 
+                            <BR><strong>TTT :</strong> resucrage per os si conscient, Glucagon IM ou G30% IV si inconscient.</p></div></div></div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="insulines" class="page hidden">
+                <section class="bg-gradient-to-br from-sky-100 to-blue-100 rounded-2xl p-6 md:p-12">
+                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-sky-500 to-blue-600 bg-clip-text text-transparent">Les Insulines</span></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Rapides Card -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Analogues Ultra-Rapides</h4>
+                            <p class="text-xs text-slate-500 italic mb-4">Novorapid®, Humalog®, Apidra®</p>
+                            <div class="space-y-3 text-sm flex-grow">
+                                <p class="flex items-center gap-3"><i data-lucide="zap" class="w-5 h-5 text-yellow-500"></i><span><strong>Délai action:</strong> 15 min</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="bar-chart-2" class="w-5 h-5 text-sky-500"></i><span><strong>Pic:</strong> ~1h</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="hourglass" class="w-5 h-5 text-slate-500"></i><span><strong>Durée:</strong> 2-5h</span></p>
+                                <p class="flex items-start gap-3"><i data-lucide="syringe" class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"></i><span><strong>Rôle:</strong> Contrôler la glycémie des repas (bolus). Injecter juste avant ou après le repas.</span></p>
+                            </div>
+                        </div>
+                        <!-- Intermédiaires Card -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Insulines Intermédiaires (NPH)</h4>
+                            <p class="text-xs text-slate-500 italic mb-4">Insulatard®, Umuline NPH®</p>
+                            <div class="space-y-3 text-sm flex-grow">
+                                <p class="flex items-center gap-3"><i data-lucide="zap" class="w-5 h-5 text-yellow-500"></i><span><strong>Délai action:</strong> 90 min</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="bar-chart-2" class="w-5 h-5 text-sky-500"></i><span><strong>Pic:</strong> 4-8h</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="hourglass" class="w-5 h-5 text-slate-500"></i><span><strong>Durée:</strong> 12-18h</span></p>
+                                <p class="flex items-start gap-3"><i data-lucide="syringe" class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"></i><span><strong>Rôle:</strong> Couverture basale. Apparence laiteuse, à agiter avant emploi.</span></p>
+                            </div>
+                        </div>
+                        <!-- Lentes Card -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800 mb-2">Analogues Lents</h4>
+                            <p class="text-xs text-slate-500 italic mb-4">Lantus®, Levemir®, Toujeo®</p>
+                            <div class="space-y-3 text-sm flex-grow">
+                                <p class="flex items-center gap-3"><i data-lucide="zap" class="w-5 h-5 text-yellow-500"></i><span><strong>Délai action:</strong> 2-4h</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="bar-chart-2" class="w-5 h-5 text-sky-500"></i><span><strong>Pic:</strong> Pas de pic marqué</span></p>
+                                <p class="flex items-center gap-3"><i data-lucide="hourglass" class="w-5 h-5 text-slate-500"></i><span><strong>Durée:</strong> ~24h</span></p>
+                                <p class="flex items-start gap-3"><i data-lucide="syringe" class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5"></i><span><strong>Rôle:</strong> Assurer les besoins de base en insuline (basal). Ne pas mélanger.</span></p>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="mt-8 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6">
+                        <h4 class="text-xl sm:text-2xl font-bold text-slate-800 mb-4">Schéma "Basal-Bolus"</h4>
+                        <p class="text-slate-600">Le schéma le plus courant pour le DT1. Il mime la sécrétion naturelle du pancréas :</p>
+                        <ul class="list-disc list-inside space-y-2 mt-4 text-slate-700 text-sm">
+                            <li><strong>1 à 2 injections d'insuline lente ou intermédiaire</strong> par jour pour couvrir les besoins de base (le "basal").</li>
+                            <li><strong>1 injection d'insuline ultra-rapide avant chaque repas</strong> pour gérer l'apport en glucides (le "bolus").</li>
+                        </ul>
+                     </div>
+                </section>
+            </div>
+            
+            <div id="dt2" class="page hidden">
+                <section class="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-6 md:p-12">
+                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-orange-500 to-red-600 bg-clip-text text-transparent">Diabète de Type II (DNID)</span></h3>
+                    <div class="space-y-8">
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6"><div class="flex items-center gap-4 mb-4"><div class="bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="move-3d" class="text-amber-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Physiopathologie & Clinique</h4></div><p class="text-slate-600 mb-4">Le plus fréquent (85%). Apparition progressive chez le sujet > 40 ans, souvent en surpoids. L'organisme développe une <strong>insulinorésistance</strong> (les cellules répondent mal à l'insuline), puis le pancréas s'épuise (<strong>insulinodéficience relative</strong>).</p><div class="p-4 bg-amber-50 rounded-lg"><h5 class="font-semibold text-amber-800">Facteurs de risque</h5><p class="text-sm">Génétique, obésité, sédentarité.</p></div></div>
+                        
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-rose-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="weight" class="text-rose-600 w-6 h-6"></i>
+                                </div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Étiologie et Facteurs de Risque</h4>
+                            </div>
+                            <p class="text-slate-600 mb-4">Le DT2 est multifactoriel, résultant d'une interaction complexe entre un terrain génétique favorable et des facteurs liés au mode de vie.</p>
+                            <div class="p-4 bg-rose-50 rounded-lg text-sm">
+                                <h5 class="font-semibold text-rose-800 mb-2">Principaux Facteurs de Risque</h5>
+                                 <ul class="list-disc list-inside space-y-1">
+                                    <li><strong>Facteurs génétiques :</strong> Les antécédents familiaux jouent un rôle majeur.</li>
+                                    <li><strong>Surcharge pondérale :</strong> L'obésité, surtout abdominale, est le principal facteur de risque modifiable.</li>
+                                    <li><strong>Sédentarité :</strong> Le manque d'activité physique réduit la sensibilité des cellules à l'insuline.</li>
+                                    <li><strong>Âge :</strong> Le risque augmente significativement après 45 ans.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6"><div class="flex items-center gap-4 mb-4"><div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="scale-3d" class="text-green-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Stratégie Thérapeutique</h4></div><div class="flex flex-wrap gap-4 text-sm"><div class="flex-1 min-w-[200px] p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">1. Règles Hygiéno-Diététiques</h5><p>Perte de poids, alimentation équilibrée, activité physique. Peut suffire au début.</p></div><div class="flex-1 min-w-[200px] p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">2. Monothérapie (Metformine)</h5><p>Si échec des RHD après 3-6 mois, introduction de la metformine.</p></div><div class="flex-1 min-w-[200px] p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">3. Bi- ou Trithérapie / Insulinothérapie</h5><p>Ajout d'autres ADO si HbA1c > 7%. Passage à l'insuline si l'équilibre n'est pas atteint.</p></div></div></div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="ado" class="page hidden">
+                <section class="bg-gradient-to-br from-rose-100 to-pink-100 rounded-2xl p-6 md:p-12">
+                     <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-rose-500 to-pink-600 bg-clip-text text-transparent">Antidiabétiques Oraux (ADO)</span></h3>
+                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Biguanides -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Biguanides</h4><p class="text-xs text-slate-500 italic">Metformine (Glucophage®)</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Mécanisme :</strong> Diminue la production de glucose par le foie et l'insulinorésistance. Ne provoque pas d'hypoglycémie.</p>
+                                <p><strong class="text-rose-700">EI majeurs :</strong> Troubles digestifs, acidose lactique (rare mais grave).</p>
+                                <p><strong class="text-rose-700">CI :</strong> Insuffisance rénale sévère, hypoxie.</p>
+                            </div>
+                        </div>
+                        <!-- Sulfamides -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Sulfamides Hypoglycémiants</h4><p class="text-xs text-slate-500 italic">Glibenclamide, Gliclazide (Diamicron®)</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Mécanisme :</strong> Stimulent la sécrétion d'insuline par le pancréas.</p>
+                                <p><strong class="text-rose-700">EI majeurs :</strong> Hypoglycémie (risque principal !), prise de poids.</p>
+                                <p><strong class="text-rose-700">CI :</strong> Insuffisance rénale ou hépatique sévère.</p>
+                            </div>
+                        </div>
+                        <!-- Glinides -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Glinides</h4><p class="text-xs text-slate-500 italic">Répaglinide (Novonorm®)</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Mécanisme :</strong> Similaire aux sulfamides, mais action plus rapide et plus courte.</p>
+                                <p><strong class="text-rose-700">EI majeurs :</strong> Hypoglycémie (surtout si le repas est sauté).</p>
+                                <p><strong class="text-rose-700">Usage :</strong> Prise juste avant les repas.</p>
+                            </div>
+                        </div>
+                        <!-- Inhibiteurs DPP-4 -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Inhibiteurs de la DPP-4 (Gliptines)</h4><p class="text-xs text-slate-500 italic">Sitagliptine (Januvia®)</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Mécanisme :</strong> Augmentent la durée de vie des incrétines (hormones stimulant la sécrétion d'insuline glucose-dépendante).</p>
+                                <p><strong class="text-rose-700">EI majeurs :</strong> Bien tolérés, faible risque d'hypoglycémie.</p>
+                            </div>
+                        </div>
+                        <!-- Inhibiteurs SGLT2 -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Inhibiteurs du SGLT2 (Gliflozines)</h4><p class="text-xs text-slate-500 italic">Canagliflozine (Invokana®)</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Mécanisme :</strong> Bloquent la réabsorption du glucose par le rein, provoquant une glycosurie (élimination du sucre dans les urines).</p>
+                                <p><strong class="text-rose-700">EI majeurs :</strong> Infections génito-urinaires, polyurie, risque de déshydratation.</p>
+                            </div>
+                        </div>
+                         <!-- Autres -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <h4 class="text-xl font-bold text-slate-800">Autres Classes</h4><p class="text-xs text-slate-500 italic">Analogues du GLP-1, Inhibiteurs des α-glucosidases</p>
+                            <div class="mt-4 space-y-3 text-sm flex-grow">
+                                <p><strong class="text-rose-700">Analogues GLP-1 (injectables) :</strong> Miment les incrétines, favorisent la perte de poids. EI : troubles digestifs.</p>
+                                <p><strong class="text-rose-700">Inhibiteurs des α-glucosidases :</strong> Ralentissent l'absorption des glucides. EI : flatulences.</p>
+                            </div>
+                        </div>
+                     </div>
+                </section>
+            </div>
+
+            <div id="role" class="page hidden">
+                 <section class="bg-gradient-to-br from-indigo-100 to-blue-100 rounded-2xl p-6 md:p-12">
+                    <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-indigo-500 to-blue-600 bg-clip-text text-transparent">Le Rôle Infirmier</span></h3>
+                    <div class="space-y-6">
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-indigo-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="book-user" class="text-indigo-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Éducation Thérapeutique du Patient (ETP)</h4></div><p class="text-slate-600">C'est le pilier de la prise en charge. L'infirmier(e) apprend au patient à devenir autonome et acteur de sa maladie.</p><ul class="list-disc list-inside space-y-2 mt-4 text-slate-700 text-sm">
+                            <li><strong>Autosurveillance glycémique</strong> : Apprendre la technique, l'interprétation des résultats et quand la réaliser.</li>
+                            <li><strong>Techniques d'injection de l'insuline</strong> : Choix du matériel, rotation des sites (éviter les lipodystrophies), conservation.</li>
+                            <li><strong>Reconnaissance des signes</strong> : Apprendre à identifier et gérer une hypo/hyperglycémie.</li>
+                            <li><strong>Règles hygiéno-diététiques</strong> : Expliquer l'impact de l'alimentation et de l'activité physique.</li>
+                            <li><strong>Soins des pieds</strong> : Inspection quotidienne pour prévenir le mal perforant plantaire.</li>
+                            <li><strong>Gestion des déchets</strong> : Utilisation des collecteurs pour objets piquants (DASRI).</li>
+                        </ul></div>
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="eye" class="text-purple-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Surveillance Clinique et Paraclinique</h4></div><p class="text-slate-600">Surveiller l'efficacité et la tolérance des traitements, et dépister les complications.</p><ul class="list-disc list-inside space-y-2 mt-4 text-slate-700 text-sm"><li>Contrôle des glycémies capillaires selon la prescription.</li><li>Recherche de cétonurie par bandelette urinaire si hyperglycémie > 2,5 g/L.</li><li>Surveillance des paramètres vitaux (TA, pouls).</li><li>Surveillance de l'état cutané (points d'injection, pieds).</li><li>Vérification de la bonne observance du traitement.</li><li>Suivi du carnet de surveillance du patient.</li></ul></div>
+                        <!-- NEW CARD START -->
+                        <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                            <div class="flex items-center gap-4 mb-4">
+                                <div class="bg-amber-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="alert-triangle" class="text-amber-600 w-6 h-6"></i>
+                                </div>
+                                <h4 class="text-xl sm:text-2xl font-bold text-slate-800">Surveillance des Symptômes : Hypo & Hyper</h4>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
+                                <!-- Hypoglycemia Column -->
+                                <div class="p-4 rounded-lg" style="background: linear-gradient(125deg, #AFEEEE, #F0F8FF);">
+                                    <h5 class="font-semibold text-sky-800 mb-2">Hypoglycémie (&lt; 0,70 g/L)</h5>
+                                    <p class="text-xs text-slate-500 mb-3">Apparition rapide, danger immédiat.</p>
+                                    <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                        <li>Sueurs, tremblements, pâleur</li>
+                                        <li>Faim impérieuse, palpitations</li>
+                                        <li>Troubles de la concentration, vision floue</li>
+                                        <li>Irritabilité, confusion</li>
+                                        <li>Maux de tête</li>
+                                        <li><span class="font-bold text-red-600">Si non traitée :</span> convulsions, coma</li>
+                                    </ul>
+                                </div>
+                                <!-- Hyperglycemia Column -->
+                                <div class="p-4 rounded-lg" style="background: linear-gradient(125deg, #DDA0DD, #F0F8FF);">
+                                    <h5 class="font-semibold text-red-800 mb-2">Hyperglycémie</h5>
+                                    <p class="text-xs text-slate-500 mb-3">Installation plus lente, danger à long terme.</p>
+                                    <ul class="list-disc list-inside space-y-1 text-slate-700">
+                                        <li>Soif intense (polydipsie)</li>
+                                        <li>Langue sèche, bouche sèche</li>
+                                        <li>Envie fréquente d'uriner (polyurie)</li>
+                                        <li>Fatigue, somnolence</li>
+                                        <li>Vision floue</li>
+                                        <li><span class="font-bold text-red-600">Si acidocétose :</span> odeur de pomme, respiration rapide</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- NEW CARD END -->
+                    </div>
+                </section>
+            </div>
+
+            <!-- Quiz Page -->
+            <div id="quiz" class="page hidden">
+                <div class="bg-gradient-to-br from-slate-50 to-gray-100 p-6 sm:p-8 md:p-10 rounded-2xl shadow-inner">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Quiz Interactif</h2>
+                    <p class="text-slate-600 mb-8">Testez vos connaissances et validez vos acquis sur les antidiabétiques.</p>
+                    <div id="qcm-container" class="space-y-8"></div>
+                    <div id="quiz-footer" class="mt-10 pt-6 border-t-2 border-slate-200 flex justify-between items-center">
+                        <p id="quiz-score" class="text-xl md:text-2xl font-bold text-slate-800"></p>
+                        <button onclick="resetQuiz()" id="reset-button" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 transform opacity-0 pointer-events-none">
+                            Recommencer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer (Replicating Header Style) -->
+        <footer id="footer" class="bg-slate-800 text-white p-4 md:p-6 mt-auto">
+            <div class="flex items-center justify-center md:justify-end text-center">
+                <p class="font-bold text-slate-300 text-xs sm:text-sm">
+                <span class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025
+                </p>
+            </div>
+        </footer>
+
+    <script>
+        // --- Quiz Data ---
+        const quizData = [
+            {
+                question: "Quelle est la première mesure thérapeutique à mettre en place pour un diabète de type II nouvellement diagnostiqué ?",
+                options: ["Insulinothérapie", "Metformine", "Règles hygiéno-diététiques", "Sulfamides hypoglycémiants"],
+                correct: 2,
+                feedback: "La prise en charge du DT2 débute toujours par des mesures hygiéno-diététiques (alimentation, activité physique) pendant 3 à 6 mois."
+            },
+            {
+                question: "Quel est le principal risque associé aux sulfamides hypoglycémiants (ex: Diamicron®) ?",
+                options: ["Hypoglycémie", "Acidose lactique", "Infections urinaires", "Troubles digestifs"],
+                correct: 0,
+                feedback: "Les sulfamides stimulent la sécrétion d'insuline, ce qui expose à un risque majeur d'hypoglycémie, surtout chez la personne âgée ou en cas de jeûne."
+            },
+            {
+                question: "La metformine (Glucophage®) est contre-indiquée en cas de :",
+                options: ["Hypertension artérielle", "Hypercholestérolémie", "Asthme", "Insuffisance rénale sévère"],
+                correct: 3,
+                feedback: "L'insuffisance rénale sévère est une contre-indication absolue car elle majore le risque d'acidose lactique, un effet secondaire rare mais très grave de la metformine."
+            },
+            {
+                question: "Quelle insuline est conçue pour mimer la sécrétion basale du pancréas sur 24h, sans pic d'action marqué ?",
+                options: ["Insuline ultra-rapide (Novorapid®)", "Insuline intermédiaire (NPH)", "Analogue lent (Lantus®)", "Mélange d'insulines (Novomix®)"],
+                correct: 2,
+                feedback: "Les analogues lents comme la glargine (Lantus®) ou le détémir (Levemir®) ont une durée d'action de 24h et un profil plat pour assurer une couverture basale."
+            },
+            {
+                question: "Un patient diabétique de type I, inconscient, est en hypoglycémie sévère. Quel est le traitement d'urgence ?",
+                options: ["Lui donner un jus de fruit", "Injection de Glucagon en IM/SC", "Injection d'insuline rapide", "Attendre qu'il se réveille"],
+                correct: 1,
+                feedback: "Chez un patient inconscient, la voie orale est proscrite. Le glucagon, hormone hyperglycémiante, est le traitement de choix en situation extra-hospitalière."
+            },
+            {
+                question: "Qu'est-ce que l'hémoglobine glyquée (HbA1c) mesure ?",
+                options: ["La glycémie à un instant T", "La moyenne des glycémies sur les 3 derniers mois", "Le taux d'insuline dans le sang", "Le nombre de corps cétoniques"],
+                correct: 1,
+                feedback: "L'HbA1c est le reflet de l'équilibre glycémique sur le long terme (environ 3 mois), c'est l'examen de référence pour le suivi du diabète."
+            },
+            {
+                question: "Qu'est-ce qu'une lipodystrophie et comment la prévenir ?",
+                options: ["Une infection au point d'injection, prévenue par l'asepsie", "Une fonte des graisses, prévenue par la rotation des sites d'injection", "Une hyperglycémie, prévenue par l'insuline", "Une réaction allergique, prévenue par un test cutané"],
+                correct: 1,
+                feedback: "La lipodystrophie est une modification du tissu sous-cutané due aux injections répétées au même endroit. La rotation des sites est essentielle pour la prévenir."
+            },
+            {
+                question: "Comment agissent les gliflozines (ex: Invokana®) ?",
+                options: ["Elles stimulent le pancréas", "Elles diminuent l'absorption intestinale du sucre", "Elles augmentent l'élimination du sucre dans les urines", "Elles améliorent la sensibilité à l'insuline"],
+                correct: 2,
+                feedback: "Les gliflozines inhibent le transporteur SGLT2 au niveau du rein, ce qui empêche la réabsorption du glucose et augmente son élimination urinaire (glycosurie)."
+            },
+            {
+                question: "Quel est le signe clinique caractéristique de l'acidocétose diabétique ?",
+                options: ["La bradycardie", "La dyspnée de Kussmaul", "L'hypothermie", "Les sueurs froides"],
+                correct: 1,
+                feedback: "La dyspnée de Kussmaul (respiration ample, rapide et bruyante) est un mécanisme compensatoire pour éliminer le CO2 et lutter contre l'acidose métabolique."
+            },
+            {
+                question: "Tous les antidiabétiques oraux sont contre-indiqués pendant la grossesse. Quel traitement est utilisé si les mesures diététiques ne suffisent pas ?",
+                options: ["La metformine uniquement", "Les sulfamides à faible dose", "Aucun, on attend l'accouchement", "L'insuline"],
+                correct: 3,
+                feedback: "L'insuline est le seul traitement antidiabétique autorisé pendant la grossesse car elle ne traverse pas la barrière placentaire."
+            }
+        ];
+
+        // --- Navigation Logic ---
+        const pages = ['generalites', 'dt1', 'insulines', 'dt2', 'ado', 'role', 'quiz'];
+        const buttonColors = {
+            generalites: 'bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-md',
+            dt1: 'bg-gradient-to-r from-teal-500 to-cyan-600 text-white shadow-md',
+            insulines: 'bg-gradient-to-r from-sky-500 to-blue-600 text-white shadow-md',
+            dt2: 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md',
+            ado: 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md',
+            role: 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-md',
+            quiz: 'bg-gradient-to-r from-slate-500 to-gray-700 text-white shadow-md'
+        };
+        const buttonHoverColors = {
+            generalites: 'hover:bg-violet-100 hover:text-violet-800',
+            dt1: 'hover:bg-teal-100 hover:text-teal-800',
+            insulines: 'hover:bg-sky-100 hover:text-sky-800',
+            dt2: 'hover:bg-orange-100 hover:text-orange-800',
+            ado: 'hover:bg-rose-100 hover:text-rose-800',
+            role: 'hover:bg-indigo-100 hover:text-indigo-800',
+            quiz: 'hover:bg-slate-300 hover:text-slate-800'
+        };
+
+        function showPage(pageId) {
+            pages.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+            
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(btn => {
+                const page = btn.dataset.page;
+                btn.className = 'nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm';
+                if (page === pageId) {
+                    btn.classList.add(...buttonColors[page].split(' '));
+                } else {
+                    btn.classList.add(...buttonHoverColors[page].split(' '));
+                }
+            });
+        }
+
+        // --- Quiz Logic ---
+        function renderQuiz() {
+            const container = document.getElementById('qcm-container');
+            container.innerHTML = '';
+            quizData.forEach((item, index) => {
+                const optionsHtml = item.options.map((option, optionIndex) => 
+                    `<button class="qcm-option w-full text-left p-4 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-100 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200" data-index="${optionIndex}">${option}</button>`
+                ).join('');
+
+                container.innerHTML += `
+                    <div class="qcm-question bg-slate-100/70 border border-slate-200/80 p-6 rounded-2xl shadow-lg" data-question-index="${index}">
+                        <p class="font-semibold text-lg text-slate-800 mb-4">${index + 1}. ${item.question}</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${optionsHtml}</div>
+                        <div class="qcm-feedback mt-4 text-sm font-medium"></div>
+                    </div>`;
+            });
+            document.getElementById('quiz-score').textContent = `Prêt ? 0 / ${quizData.length}`;
+            const resetButton = document.getElementById('reset-button');
+            resetButton.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        function setupQuizListeners() {
+            const container = document.getElementById('qcm-container');
+            container.addEventListener('click', (event) => {
+                if (!event.target.classList.contains('qcm-option')) return;
+                
+                const optionButton = event.target;
+                const questionEl = optionButton.closest('.qcm-question');
+                if (!questionEl || questionEl.classList.contains('answered')) return;
+                
+                questionEl.classList.add('answered');
+                const questionIndex = parseInt(questionEl.dataset.questionIndex, 10);
+                const questionData = quizData[questionIndex];
+                const selectedIndex = parseInt(optionButton.dataset.index, 10);
+                const isCorrect = selectedIndex === questionData.correct;
+                const feedbackEl = questionEl.querySelector('.qcm-feedback');
+
+                if (isCorrect) {
+                    optionButton.classList.add('correct');
+                    feedbackEl.innerHTML = `<div class="text-emerald-700 p-3 bg-emerald-100 rounded-lg"><b class="font-bold">Bravo !</b> ${questionData.feedback || ''}</div>`;
+                } else {
+                    optionButton.classList.add('incorrect');
+                    questionEl.querySelector(`[data-index="${questionData.correct}"]`).classList.add('correct');
+                    feedbackEl.innerHTML = `<div class="text-red-700 p-3 bg-red-100 rounded-lg"><b class="font-bold">Dommage.</b> ${questionData.feedback || ''}</div>`;
+                }
+                
+                questionEl.querySelectorAll('.qcm-option').forEach(btn => btn.disabled = true);
+                updateScore();
+            });
+        }
+
+        function updateScore() {
+            const totalQuestions = quizData.length;
+            // DÉBUT DE LA CORRECTION : La méthode de comptage précédente comptait les réponses correctes non sélectionnées
+            // La bonne méthode est de compter les questions marquées 'answered' qui n'ont AUCUNE option 'incorrect'
+            let correctAnswers = 0; 
+            document.querySelectorAll('.qcm-question.answered').forEach(questionEl => {
+                if (!questionEl.querySelector('.qcm-option.incorrect')) {
+                    correctAnswers++;
+                }
+            });
+            // FIN DE LA CORRECTION
+            const answeredCount = document.querySelectorAll('.qcm-question.answered').length;
+
+            const scoreEl = document.getElementById('quiz-score');
+            scoreEl.textContent = `Votre score : ${correctAnswers} / ${answeredCount}`;
+
+            if (answeredCount === totalQuestions) {
+                scoreEl.textContent = `Score final : ${correctAnswers} / ${totalQuestions}`;
+                const percentage = (correctAnswers / totalQuestions) * 100;
+                if (percentage >= 80) {
+                    scoreEl.textContent += " - Excellent travail ! 🎉";
+                } else if (percentage >= 50) {
+                    scoreEl.textContent += " - Pas mal, continuez à réviser ! 💪";
+                } else {
+                    scoreEl.textContent += " - Encore un effort ! 📚";
+                }
+                document.getElementById('reset-button').classList.remove('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function resetQuiz() {
+            renderQuiz();
+        }
+
+        // --- Initialisation ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            showPage('generalites'); // Show the first page by default
+            renderQuiz();
+            setupQuizListeners();
+        });
+    </script>
+</body>
+</html>
+

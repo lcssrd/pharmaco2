@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les essentiels en pharmacologie - Accueil</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom styles to complement Tailwind */
+        html {
+            overflow-y: scroll; /* Prevents layout shifts */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* A slightly softer background */
+        }
+        /* Animation for a subtle loading effect */
+        .module-page {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="p-2 sm:p-4 md:p-8 flex flex-col min-h-screen">
+    <!-- Main container -->
+    <div id="app" class="max-w-6xl mx-auto bg-white shadow-2xl rounded-xl flex-grow w-full flex flex-col">
+        
+        <!-- Header -->
+        <header id="header" class="bg-slate-800 text-white p-6 md:p-8 sticky top-0 z-50 rounded-t-xl">
+            <div class="flex items-center justify-between">
+                <h1 id="main-title" class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent pb-2">Les essentiels en pharmacologie</h1>
+                <!-- Desktop Author Info (Header) -->
+                <div class="hidden md:block text-right font-bold text-slate-300 text-sm">
+                    <p><span id="author-ifsi" class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="p-4 sm:p-6 md:p-8 flex-grow">
+
+            <!-- HOME PAGE -->
+            <div id="module-accueil" class="module-page">
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- 1. Card Antalgiques (Bleu/Cyan) -->
+                    <a href="antalgiques.html" class="h-full min-h-72 group relative bg-gradient-to-br from-cyan-50 to-blue-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-cyan-500/50">
+                        <div class="absolute top-4 right-4 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent mb-4">Antalgiques</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-grow">De la physiologie de la douleur aux traitements médicamenteux.</p>
+                        <span class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+                    
+                    <!-- 2. Card Anti-inflammatoires (Violet/Rose) -->
+                    <a href="antiinflam.html" class="h-full min-h-72 group relative bg-gradient-to-br from-rose-50 to-purple-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-purple-500/50">
+                        <div class="absolute top-4 right-4 bg-fuchsia-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-4">Anti-inflammatoires</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-grow">L'inflammation, les AINS, les corticoïdes et la surveillance infirmière associée.</p>
+                        <span class="bg-gradient-to-r from-purple-400 to-pink-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+
+                    <!-- 3. Card Anticoagulants (Rouge/Orange) -->
+                    <a href="antico.html" class="h-full min-h-72 group relative bg-gradient-to-br from-red-50 to-orange-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-500/50">
+                        <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent mb-4">Anticoagulants</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-grow">Explorez l'hémostase et les différentes familles de traitements.</p>
+                        <span class="bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+                    
+                    <!-- 4. Card Antihypertenseurs (Vert/Émeraude) -->
+                    <a href="antihta.html" class="h-full min-h-72 group relative bg-gradient-to-br from-emerald-50 to-green-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-emerald-500/50">
+                        <div class="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent mb-4">Antihypertenseurs</h3>
+                        <p class="text-slate-600 text-sm mb-6 flex-grow">Comprenez l'HTA et maîtrisez les IEC, ARA II, inhibiteurs calciques, bêtabloquants et diurétiques.</p>
+                        <span class="bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+
+                    <!-- 5. Card Antiarythmiques et Digitaliques (Rose/Rouge) -->
+                    <a href="antiarythm.html" class="h-full min-h-72 group relative bg-gradient-to-br from-rose-50 to-red-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                        <div class="absolute top-4 right-4 bg-red-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent mb-4">Antiarythmiques & Digitaliques</h3>
+                        <p class="text-slate-700 text-sm mb-6 flex-grow">Stabilisateurs de membranes, Bêta-bloquants, Inhib. Potassiques, Inhib. Calciques et digitaliques.</p>
+                        <span class="bg-gradient-to-r from-red-400 to-rose-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+
+                    <!-- 6. Card Anti-diabétiques (Violet) -->
+                    <a href="antidiabetiques.html" class="h-full min-h-72 group relative bg-gradient-to-br from-violet-50 to-purple-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                        <div class="absolute top-4 right-4 bg-purple-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-pink-400 to-violet-500 bg-clip-text text-transparent mb-4">Anti-diabétiques</h3>
+                        <p class="text-slate-700 text-sm mb-6 flex-grow">Généralités sur le diabète, insulines & antidiabétiques oraux</p>
+                        <span class="bg-gradient-to-r from-purple-400 to-violet-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+                    
+                    <!-- 7. Card Hypolipémiants (Cyan/Teal) -->
+                    <a href="hypolipemiants.html" class="h-full min-h-72 group relative bg-gradient-to-br from-cyan-50 to-teal-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                        <div class="absolute top-4 right-4 bg-cyan-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-teal-500 to-cyan-600 bg-clip-text text-transparent mb-4">Hypolipémiants</h3>
+                        <p class="text-slate-700 text-sm mb-6 flex-grow">Généralités sur le choléstérol, les règles hygiéno-diététiques et les traitements</p>
+                        <span class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+                    
+                    <!-- 8. Card Antiasthmatiques & Antihistaminiques  -->
+                    <a href="asthme.html" class="h-full min-h-72 group relative bg-gradient-to-br from-fuchsia-50 to-purple-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-500/50">
+                        <div class="absolute top-4 right-4 bg-fuchsia-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                        <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-fuchsia-600 to-purple-700 bg-clip-text text-transparent mb-4">Antiasthmatiques & Antihistaminiques</h3>
+                        <p class="text-slate-700 text-sm mb-6 flex-grow">Rappels sur l'astme et ses traitements : bronchodilatateurs, corticoïdes...</p>
+                        <span class="bg-gradient-to-r from-fuchsia-600 to-purple-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                    </a>
+
+                </div>
+            </div>
+
+        </main>
+        
+        <!-- Footer (Replicating Header Style) -->
+        <footer id="footer" class="bg-slate-800 text-white p-4 md:p-6 mt-auto rounded-b-xl shadow-inner">
+            <div class="max-w-6xl mx-auto flex items-center justify-center md:justify-end text-center">
+                <!-- Mobile/Tablet & Desktop Author Info (Footer) -->
+                <p class="font-bold text-slate-300 text-xs sm:text-sm">
+                <span class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+
