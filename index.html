@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les essentiels en pharmacologie - Accueil</title>
     
+    <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
+    <!-- Feather & Lucide Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js for synthesis chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         /* Custom styles to complement Tailwind */
         html {
@@ -18,58 +27,1758 @@
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Un fond plus doux */
+            background-color: #f0f4f8; /* A slightly softer background */
         }
-        /* Animation pour un effet de chargement subtil */
-        .module-page {
+        /* Animation for a subtle loading effect */
+        .module-page, .antalgiques-page, .antiarythm-page {
             animation: fadeIn 0.5s ease-in-out;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        /* Custom scrollbar for sidebar */
+        #sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        #sidebar::-webkit-scrollbar-track {
+            background: #e0e7ff;
+            border-radius: 10px;
+        }
+        #sidebar::-webkit-scrollbar-thumb {
+            background: #818cf8;
+            border-radius: 10px;
+        }
+        #sidebar::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+        /* Quiz specific styles */
+        .qcm-option.correct {
+            background-image: linear-gradient(to right, #4ade80, #16a34a); /* from-green-400 to-green-600 */
+            color: white;
+            border-color: #15803d; /* green-700 */
+            font-weight: 600;
+        }
+        .qcm-option.incorrect {
+            background-image: linear-gradient(to right, #f87171, #dc2626); /* from-red-400 to-red-600 */
+            color: white;
+            border-color: #b91c1c; /* red-700 */
+            font-weight: 600;
+        }
+        .qcm-option:disabled {
+            cursor: not-allowed;
+        }
+        .qcm-option:disabled:not(.correct):not(.incorrect) {
+            color: #475569; /* slate-600 */
+            background-color: #f1f5f9; /* slate-100 */
+            opacity: 0.7;
+        }
+
+/* ===== CODE À AJOUTER CI-DESSOUS ===== */
+
+        /* Style générique pour le lien actif */
+        .nav-link.active-link {
+            font-weight: 600; /* Met le texte en gras */
+        }
+
+        /* --- Couleurs spécifiques par module --- */
+
+        /* Accueil (Indigo) */
+        .nav-link[href="#accueil"].active-link,
+        .nav-link[href="#accueil"]:hover {
+            background-color: #e0e7ff; /* bg-indigo-100 */
+            color: #4338ca; /* text-indigo-700 */
+        }
+        .nav-link[href="#accueil"].active-link {
+            background-color: #c7d2fe; /* bg-indigo-200, plus prononcé */
+        }
+
+        /* Antalgiques (Cyan) */
+        .nav-link[href="#antalgiques"].active-link,
+        .nav-link[href="#antalgiques"]:hover {
+            background-color: #cffafe; /* bg-cyan-100 */
+            color: #0e7490; /* text-cyan-700 */
+        }
+        .nav-link[href="#antalgiques"].active-link {
+            background-color: #a5f3fc; /* bg-cyan-200, plus prononcé */
+        }
+
+        /* Anti-inflammatoires (Fuchsia) */
+        .nav-link[href="#antiinflam"].active-link,
+        .nav-link[href="#antiinflam"]:hover {
+            background-color: #fce7f3; /* bg-fuchsia-100 */
+            color: #a21caf; /* text-fuchsia-700 */
+        }
+        .nav-link[href="#antiinflam"].active-link {
+            background-color: #f9a8d4; /* bg-fuchsia-200, plus prononcé */
+        }
+        
+        /* Anticoagulants (Red) */
+        .nav-link[href="#antico"].active-link,
+        .nav-link[href="#antico"]:hover {
+            background-color: #fee2e2; /* bg-red-100 */
+            color: #b91c1c; /* text-red-700 */
+        }
+        .nav-link[href="#antico"].active-link {
+            background-color: #fecaca; /* bg-red-200, plus prononcé */
+        }
+
+        /* Antihypertenseurs (Emerald) */
+        .nav-link[href="#antihta"].active-link,
+        .nav-link[href="#antihta"]:hover {
+            background-color: #d1fae5; /* bg-emerald-100 */
+            color: #047857; /* text-emerald-700 */
+        }
+        .nav-link[href="#antihta"].active-link {
+            background-color: #a7f3d0; /* bg-emerald-200, plus prononcé */
+        }
+
+        /* Antiarythmiques (Rose) */
+        .nav-link[href="#antiarythm"].active-link,
+        .nav-link[href="#antiarythm"]:hover {
+            background-color: #ffe4e6; /* bg-rose-100 */
+            color: #be123c; /* text-rose-700 */
+        }
+        .nav-link[href="#antiarythm"].active-link {
+            background-color: #fecdd3; /* bg-rose-200, plus prononcé */
+        }
+
+        /* Anti-diabétiques (Violet) */
+        .nav-link[href="#antidiabetiques"].active-link,
+        .nav-link[href="#antidiabetiques"]:hover {
+            background-color: #f5f3ff; /* bg-violet-100 */
+            color: #6d28d9; /* text-violet-700 */
+        }
+        .nav-link[href="#antidiabetiques"].active-link {
+            background-color: #ddd6fe; /* bg-violet-200, plus prononcé */
+        }
+        
+        /* Hypolipémiants (Teal) */
+        .nav-link[href="#hypolipemiants"].active-link,
+        .nav-link[href="#hypolipemiants"]:hover {
+            background-color: #ccfbf1; /* bg-teal-100 */
+            color: #0f766e; /* text-teal-700 */
+        }
+        .nav-link[href="#hypolipemiants"].active-link {
+            background-color: #99f6e4; /* bg-teal-200, plus prononcé */
+        }
+
+        /* Antiasthmatiques (Purple) */
+        .nav-link[href="#asthme"].active-link,
+        .nav-link[href="#asthme"]:hover {
+            background-color: #f3e8ff; /* bg-purple-100 */
+            color: #7e22ce; /* text-purple-700 */
+        }
+        .nav-link[href="#asthme"].active-link {
+            background-color: #e9d5ff; /* bg-purple-200, plus prononcé */
+        }
+        
+        /* Thérapeutiques Digestives (Lime) */
+        .nav-link[href="#digestif"].active-link,
+        .nav-link[href="#digestif"]:hover {
+            background-color: #f7fee7; /* bg-lime-100 */
+            color: #4d7c0f; /* text-lime-700 */
+        }
+        .nav-link[href="#digestif"].active-link {
+            background-color: #ecfccb; /* bg-lime-200, plus prononcé */
+        }
+
+        /* Anticancéreux (Blue) */
+        .nav-link[href="#anticancer"].active-link,
+        .nav-link[href="#anticancer"]:hover {
+            background-color: #dbeafe; /* bg-blue-100 */
+            color: #1d4ed8; /* text-blue-700 */
+        }
+        .nav-link[href="#anticancer"].active-link {
+            background-color: #bfdbfe; /* bg-blue-200, plus prononcé */
+        }
+
+
+
+
     </style>
 </head>
-<body class="bg-slate-200">
-
-    <div class="max-w-screen-2xl mx-auto flex min-h-screen">
-
-        <aside id="sidebar-container" class="w-64 bg-slate-900 text-white flex-shrink-0">
-            </aside>
-
-        <div class="flex-grow flex flex-col">
-            <div id="app" class="bg-white shadow-2xl flex-grow w-full flex flex-col m-4 rounded-xl">
-                
-                <header id="header" class="bg-slate-800 text-white p-6 md:p-8 rounded-t-xl">
-                    <div class="flex items-center justify-between">
-                        <h1 id="main-title" class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent pb-2">Les essentiels en pharmacologie</h1>
-                        <div class="hidden md:block text-right font-bold text-slate-300 text-sm">
-                            <p><span id="author-ifsi" class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025</p>
-                        </div>
-                    </div>
-                </header>
-
-                <main id="main-content" class="p-4 sm:p-6 md:p-8 flex-grow">
-                    <div id="module-accueil" class="module-page">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                           <a href="antalgiques.html" class="h-full ...">...</a>
-                           <a href="antiinflam.html" class="h-full ...">...</a>
-                           </div>
-                    </div>
-                </main>
-                
-                <footer id="footer" class="bg-slate-800 text-white p-4 md:p-6 mt-auto rounded-b-xl shadow-inner">
-                    <div class="max-w-6xl mx-auto flex items-center justify-center md:justify-end text-center">
-                        <p class="font-bold text-slate-300 text-xs sm:text-sm">
-                        <span class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025
-                        </p>
-                    </div>
-                </footer>
+<body class="p-2 sm:p-4 md:p-8 flex flex-col min-h-screen">
+    <!-- Main container -->
+    <div id="app" class="max-w-7xl mx-auto bg-white shadow-2xl rounded-xl flex-grow w-full flex flex-col">
+        
+        <!-- Header -->
+        <header id="header" class="bg-slate-800 text-white px-6 md:px-8 sticky top-0 z-50 rounded-t-xl flex items-center h-24">
+            <div class="flex items-center justify-between w-full">
+                <!-- Mobile Menu Button -->
+                <button id="menu-toggle" class="md:hidden mr-4 p-2 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <i data-feather="menu" class="h-6 w-6"></i>
+                </button>
+                <h1 id="main-title" class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent pb-2">Les essentiels en pharmacologie</h1>
+                <!-- Desktop Author Info (Header) -->
+                <div class="hidden md:block text-right font-bold text-slate-300 text-sm">
+                    <p><span id="author-ifsi" class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025</p>
+                </div>
             </div>
+        </header>
+
+
+            <!-- Sidebar Navigation -->
+        <div class="flex flex-grow">
+            <div id="sidebar-container"></div>
+
+            <main id="main-content" class="p-4 sm:p-6 md:p-8 flex-grow w-full overflow-y-auto">
+                </main>
         </div>
 
+            <!-- Main Content Area -->
+            <main id="main-content" class="p-4 sm:p-6 md:p-8 flex-grow w-full overflow-y-auto">
+
+                <!-- HOME PAGE -->
+                <div id="module-accueil" class="module-page">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Module Cards -->
+                        <a href="#antalgiques" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-cyan-50 to-blue-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-cyan-500/50">
+                            <div class="absolute top-4 right-4 bg-cyan-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent mb-4">Antalgiques</h3>
+                            <p class="text-slate-600 text-sm mb-6 flex-grow">De la physiologie de la douleur aux traitements médicamenteux.</p>
+                            <span class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                         <a href="#antiinflam" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-rose-50 to-purple-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-purple-500/50">
+                            <div class="absolute top-4 right-4 bg-fuchsia-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent mb-4">Anti-inflammatoires</h3>
+                            <p class="text-slate-600 text-sm mb-6 flex-grow">L'inflammation, les AINS, les corticoïdes et la surveillance infirmière associée.</p>
+                            <span class="bg-gradient-to-r from-purple-400 to-pink-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                        <a href="#antico" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-red-50 to-orange-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-500/50">
+                            <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S1</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent mb-4">Anticoagulants</h3>
+                            <p class="text-slate-600 text-sm mb-6 flex-grow">Explorez l'hémostase et les différentes familles de traitements.</p>
+                            <span class="bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                        <a href="#antihta" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-emerald-50 to-green-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-emerald-500/50">
+                            <div class="absolute top-4 right-4 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent mb-4">Antihypertenseurs</h3>
+                            <p class="text-slate-600 text-sm mb-6 flex-grow">Comprenez l'HTA et maîtrisez les IEC, ARA II, inhibiteurs calciques, bêtabloquants et diurétiques.</p>
+                            <span class="bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                        <a href="#antiarythm" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-rose-50 to-red-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                            <div class="absolute top-4 right-4 bg-red-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-pink-400 to-rose-500 bg-clip-text text-transparent mb-4">Antiarythmiques & Digitaliques</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Stabilisateurs de membranes, Bêta-bloquants, Inhib. Potassiques, Inhib. Calciques et digitaliques.</p>
+                            <span class="bg-gradient-to-r from-red-400 to-rose-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                        <a href="#antidiabetiques" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-violet-50 to-purple-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                            <div class="absolute top-4 right-4 bg-purple-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-pink-400 to-violet-500 bg-clip-text text-transparent mb-4">Anti-diabétiques</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Généralités sur le diabète, insulines & antidiabétiques oraux</p>
+                            <span class="bg-gradient-to-r from-purple-400 to-violet-500 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full sm:w-auto">Commencer</span>
+                        </a>
+                        <a href="#hypolipemiants" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-cyan-50 to-teal-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-red-400/50">
+                            <div class="absolute top-4 right-4 bg-cyan-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-teal-500 to-cyan-600 bg-clip-text text-transparent mb-4">Hypolipémiants</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Généralités sur le choléstérol, les règles hygiéno-diététiques et les traitements</p>
+                            <span class="bg-gradient-to-r from-teal-500 to-cyan-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                        </a>
+                        <a href="#asthme" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-fuchsia-50 to-purple-200 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-fuchsia-500/50">
+                            <div class="absolute top-4 right-4 bg-fuchsia-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-fuchsia-600 to-purple-700 bg-clip-text text-transparent mb-4">Antiasthmatiques & Antihistaminiques</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Rappels sur l'astme et ses traitements : bronchodilatateurs, corticoïdes...</p>
+                            <span class="bg-gradient-to-r from-fuchsia-600 to-purple-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                        </a>
+                        <a href="#digestif" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-lime-50 to-green-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-lime-500/50">
+                            <div class="absolute top-4 right-4 bg-lime-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S3</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-lime-500 to-green-600 bg-clip-text text-transparent mb-4">Thérapeutiques Digestives</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Explorez les anti-acides, laxatifs, antiémétiques et le rôle infirmier associé.</p>
+                            <span class="bg-gradient-to-r from-lime-500 to-green-600 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                        </a>
+                        <a href="#anticancer" class="module-card h-full min-h-72 group relative bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col text-center items-center transform hover:-translate-y-2 focus:outline-none focus:ring-4 focus:ring-blue-500/50">
+                            <div class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">S5</div>
+                            <h3 class="text-2xl font-bold text-slate-800 bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent mb-4">Traitements anticancéreux</h3>
+                            <p class="text-slate-700 text-sm mb-6 flex-grow">Chimiothérapies, thérapies ciblées, immunothérapies et rôle infirmier.</p>
+                            <span class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-3 px-8 rounded-lg shadow-md group-hover:scale-105 transition-transform duration-300 w-full md:w-auto">Commencer</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- ANTALGIQUES MODULE CONTENT -->
+                <div id="module-antalgiques" class="module-page hidden">
+                    <nav class="pb-6">
+                        <div class="p-1.5 bg-slate-200/60 rounded-xl grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                            <button data-page="douleur" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">La Douleur</button>
+                            <button data-page="nonopioides" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Non-opioïdes</button>
+                            <button data-page="opioidesfaibles" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Opioïdes faibles</button>
+                            <button data-page="opioidesforts" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Opioïdes forts</button>
+                            <button data-page="coanalgesiques" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Co-analgésiques</button>
+                            <button data-page="role" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Rôle Infirmier</button>
+                            <button data-page="quiz" class="antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Quiz</button>
+                        </div>
+                    </nav>
+
+                    <div id="douleur" class="antalgiques-page">
+                        <section class="bg-gradient-to-br from-sky-100 to-cyan-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-cyan-400 to-blue-600 bg-clip-text text-transparent">Rappels sur la Douleur</span></h3>
+                            <div class="grid grid-cols-1 gap-8">
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="quote" class="text-blue-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Définition</h4></div><p class="text-slate-600 italic text-sm sm:text-base">« Expérience sensorielle et émotionnelle désagréable associée à une lésion tissulaire réelle ou potentielle ou décrite dans ces termes. »</p></div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="activity" class="text-green-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Caractéristiques de la Douleur</h4></div><div class="grid md:grid-cols-3 gap-4 text-sm"><div class="p-4 bg-green-50 rounded-lg"><h5 class="font-semibold text-green-800">Aiguë (&lt; 6 sem.)</h5><p>Récente, transitoire, liée à une lésion, rôle de protection.</p></div><div class="p-4 bg-orange-50 rounded-lg"><h5 class="font-semibold text-orange-800">Chronique (&gt; 3 mois)</h5><p>Mécanismes autonomes, impact majeur sur la qualité de vie.</p></div><div class="p-4 bg-red-50 rounded-lg"><h5 class="font-semibold text-red-800">Liée aux soins</h5><p>Provoquée par les soins (iatrogène), immédiate ou prolongée.</p></div></div></div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-purple-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="brain-circuit" class="text-purple-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Types de Douleurs</h4></div><div class="grid md:grid-cols-3 gap-4 text-sm"><div class="p-4 bg-purple-50 rounded-lg"><h5 class="font-semibold text-purple-800">Nociceptive</h5><p>Activation des récepteurs à la douleur. Bien localisée, aiguë, pulsatile.</p></div><div class="p-4 bg-indigo-50 rounded-lg"><h5 class="font-semibold text-indigo-800">Neuropathique</h5><p>Lésion du système nerveux. Brûlure, picotements, chocs électriques.</p></div><div class="p-4 bg-pink-50 rounded-lg"><h5 class="font-semibold text-pink-800">Nociplastique</h5><p>Altération de la nociception sans lésion. Diffuse, généralisée.</p></div></div></div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"><div class="flex items-center gap-4 mb-4"><div class="bg-yellow-100 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0"><i data-lucide="scaling" class="text-yellow-600 w-6 h-6"></i></div><h4 class="text-xl sm:text-2xl font-bold text-slate-800">Évaluation de la Douleur</h4></div><p class="text-slate-600 mb-4 text-sm sm:text-base">La douleur est subjective : son évaluation par le patient est toujours juste. L'intérêt des échelles est de suivre son évolution dans le temps.</p><div class="flex flex-wrap gap-4 text-sm"><div class="flex-1 min-w-[200px] p-4 bg-yellow-50 rounded-lg"><h5 class="font-semibold text-yellow-800">EVA</h5><p>Le patient positionne un curseur sur une réglette.</p></div><div class="flex-1 min-w-[200px] p-4 bg-yellow-50 rounded-lg"><h5 class="font-semibold text-yellow-800">EN</h5><p>Le patient donne une note de 0 à 10.</p></div><div class="flex-1 min-w-[200px] p-4 bg-yellow-50 rounded-lg"><h5 class="font-semibold text-yellow-800">EVS</h5><p>Le patient choisit des mots pour décrire sa douleur.</p></div></div><p class="text-slate-500 text-xs italic mt-4 pt-4 border-t border-yellow-200">Il existe d'autres échelles plus spécifiques, notamment pour les enfants (EVENDOL) ou les personnes âgées non communicantes (ALGOPLUS).</p></div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="nonopioides" class="antalgiques-page hidden">
+                        <section class="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-green-500 to-emerald-700 bg-clip-text text-transparent">Antalgiques non-opioïdes</span></h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Paracétamol</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Doliprane®, Dafalgan®...</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique – antipyrétique</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Action centrale sur COX-3 et voies sérotoninergiques.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO:</b> 30-60 min<br><b>IV:</b> 1h (pic antalgique)<br><b>Rectale:</b> plus lent</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Rares aux doses usuelles. Risque majeur : hépatotoxicité (surdosage).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Insuffisance hépatocellulaire sévère, alcoolisme chronique.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">N-acétylcystéine.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">4 g/j (adulte) → 1 g/prise toutes les 6h.</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">AINS</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Advil®, Nurofen®, Profénid®...</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : anti-inflammatoires non stéroïdiens</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Inhibition COX-1 et COX-2 → ↓ prostaglandines.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO:</b> 30-60 min<br><b>IV:</b> 20-30 min</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Gastralgies, ulcère, hémorragie digestive, insuffisance rénale.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Ulcère actif, insuffisance rénale/cardiaque sévère, grossesse T3, association anticoagulants.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Ibuprofène: 1.2–1.8 g/j. Kétoprofène: 200 mg/j.</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Néfopam</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Acupan®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique non opioïde</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Inhibe recapture sérotonine, dopamine, noradrénaline.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>IV/IM:</b> 15-20 min<br><b>PO:</b> 30-60 min</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Tachycardie, sueurs, confusion, hallucinations, nausées.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Épilepsie, rétention urinaire, glaucome.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">120 mg/j (per os ou IV).</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="opioidesfaibles" class="antalgiques-page hidden">
+                        <section class="bg-gradient-to-br from-amber-100 to-yellow-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-amber-500 to-yellow-600 bg-clip-text text-transparent">Opioïdes faibles</span></h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Codéine</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Klipal®, Codoliprane®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique opioïde faible</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Agoniste µ-opioïde faible (pro-drogue de la morphine).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO:</b> 30-60 min</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Constipation, nausées, somnolence, risque de dépendance.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Enfants &lt;12 ans, allaitement, insuffisance respiratoire.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">Naloxone (Narcan®).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">120 mg/j (souvent en association).</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Tramadol</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Topalgic®, Ixprim®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique opioïde faible</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Agoniste µ-opioïde + inhibiteur recapture sérotonine/noradrénaline.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO (LI):</b> ~1h<br><b>IV:</b> 5-10 min</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Nausées, vomissements, somnolence, vertiges, risque de syndrome sérotoninergique.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Association IMAO/IRS, épilepsie non contrôlée.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">Naloxone (Narcan®).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">400 mg/j (adulte).</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="opioidesforts" class="antalgiques-page hidden">
+                        <section class="bg-gradient-to-br from-red-100 to-orange-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">Opioïdes forts</span></h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Morphine</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Skenan®, Actiskenan®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique opioïde fort</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Agoniste récepteur µ → inhibition transmission nociceptive.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO (LI):</b> 30-60 min<br><b>PO (LP):</b> 2-4h<br><b>IV:</b> 10-15 min<br><b>SC:</b> 15-30 min</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Constipation, nausées, prurit, rétention urinaire, somnolence, dépression respiratoire.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Insuffisance respiratoire/hépatique/rénale sévère, HTIC non contrôlée.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">Naloxone (Narcan®).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Pas de dose plafond → titration.</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Fentanyl</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Durogesic®, Actiq®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique opioïde fort</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Agoniste µ très puissant (100x morphine).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>IV:</b> 2-3 min<br><b>Transmuqueuse:</b> 5-15 min<br><b>Patch:</b> lent (pic à 12-24h)</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Idem morphine (dépression respiratoire ++), tolérance rapide.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Idem morphine. Prudence chez non-tolérants aux opioïdes.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">Naloxone (Narcan®).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Dépend de la forme (Patch 25–100 µg/h).</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Oxycodone</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Oxycontin®, Oxynorm®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antalgique opioïde fort</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Agoniste µ et κ.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO (LI):</b> 15-30 min<br><b>PO (LP):</b> ~1h</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Constipation, somnolence, nausées, dépression respiratoire.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Idem morphine.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="flask-conical" class="w-4 h-4 text-green-600"></i>Antidote</h5><p class="text-slate-500 pl-6">Naloxone (Narcan®).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Variable selon tolérance (souvent 120–160 mg/j per os).</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="coanalgesiques" class="antalgiques-page hidden">
+                        <section class="bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-purple-500 to-indigo-600 bg-clip-text text-transparent">Adjuvants (Co-analgésiques)</span></h3>
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Gabapentine / Prégabaline</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Neurontin®, Lyrica®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antiépileptiques</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Modulent canaux calciques → ↓ libération neurotransmetteurs excitateurs.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO:</b> effet progressif sur plusieurs jours à semaines.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Somnolence, vertiges, prise de poids, œdèmes.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Hypersensibilité, prudence en insuffisance rénale.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Gabapentine: 3600 mg/j. Prégabaline: 600 mg/j.</p></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-6 flex flex-col transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+                                    <div class="mb-4">
+                                        <h4 class="text-xl font-bold text-slate-800">Amitriptyline / Duloxétine</h4>
+                                        <p class="text-xs text-slate-500 italic">Ex: Laroxyl®, Cymbalta®</p>
+                                        <p class="text-sm text-slate-500 mt-1">Classe : antidépresseurs</p>
+                                    </div>
+                                    <div class="space-y-4 text-sm flex-grow">
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="atom" class="w-4 h-4 text-sky-600"></i>Mécanisme</h5><p class="text-slate-500 pl-6">Inhibition recapture sérotonine + noradrénaline → modulation douleur.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="timer" class="w-4 h-4 text-cyan-600"></i>Voies & Délai d'action</h5><p class="text-slate-500 pl-6"><b>PO:</b> effet retardé, ressenti après 1 à 4 semaines.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>Effets secondaires</h5><p class="text-slate-500 pl-6">Sécheresse buccale, constipation (ATC) ; nausées, céphalées (IRSN).</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="ban" class="w-4 h-4 text-red-600"></i>Contre-indications</h5><p class="text-slate-500 pl-6">Glaucome, adénome prostatique (ATC), association IMAO.</p></div>
+                                        <div><h5 class="font-semibold text-slate-600 mb-1 flex items-center gap-2"><i data-lucide="gauge-circle" class="w-4 h-4 text-emerald-600"></i>Posologie max</h5><p class="text-slate-500 pl-6">Amitriptyline: 150 mg/j. Duloxétine: 120 mg/j.</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="role" class="antalgiques-page hidden">
+                        <section class="bg-gradient-to-br from-pink-100 to-rose-100 rounded-2xl p-6 md:p-12">
+                            <h3 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-12 text-center leading-tight text-slate-800"><span class="bg-gradient-to-br from-pink-500 to-rose-600 bg-clip-text text-transparent">Le Rôle Infirmier</span></h3>
+                            <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
+                                <div class="lg:col-span-2"><h4 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">Un rôle <span class="bg-gradient-to-r from-purple-500 to-indigo-500 bg-clip-text text-transparent">essentiel</span></h4><p class="text-slate-600 text-sm sm:text-base">L'infirmier(ère) est au cœur de la prise en charge de la douleur. Son action repose sur une approche globale et continue, axée sur le bien-être du patient.</p></div>
+                                <div class="lg:col-span-3 space-y-6"><div class="flex items-start gap-4 sm:gap-6 p-6 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg"><div class="bg-green-100 text-green-700 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 flex items-center justify-center text-xl sm:text-2xl font-bold">1</div><div><h5 class="font-bold text-lg sm:text-xl text-slate-800 mb-1">Évaluer</h5><p class="text-slate-600 text-sm sm:text-base">Évaluer systématiquement la douleur, en gardant toujours la même échelle.</p></div></div><div class="flex items-start gap-4 sm:gap-6 p-6 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg"><div class="bg-blue-100 text-blue-700 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 flex items-center justify-center text-xl sm:text-2xl font-bold">2</div><div><h5 class="font-bold text-lg sm:text-xl text-slate-800 mb-1">Administrer</h5><p class="text-slate-600 text-sm sm:text-base">Délivrer les traitements sur prescription et potentialiser l'effet placebo.</p></div></div><div class="flex items-start gap-4 sm:gap-6 p-6 bg-white/70 backdrop-blur-sm rounded-xl shadow-lg"><div class="bg-orange-100 text-orange-700 w-12 h-12 sm:w-16 sm:h-16 rounded-full flex-shrink-0 flex items-center justify-center text-xl sm:text-2xl font-bold">3</div><div><h5 class="font-bold text-lg sm:text-xl text-slate-800 mb-1">Surveiller</h5><p class="text-slate-600 text-sm sm:text-base">Observer l'efficacité du traitement et l'apparition d'effets indésirables.</p></div></div></div>
+                            </div>
+                            <div class="mt-12">
+                                <h4 class="text-2xl sm:text-3xl font-bold text-slate-800 mb-6 text-center">Recommandations de l'OMS</h4>
+                                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-sm">
+                                    <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4"><div class="flex items-center gap-3"><div class="bg-rose-100 text-rose-700 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-bold">1</div><div><h5 class="font-semibold text-slate-700">Voie Per Os prioritaire</h5><p class="text-slate-500">Pour le confort et la facilité d'administration.</p></div></div></div>
+                                    <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4"><div class="flex items-center gap-3"><div class="bg-rose-100 text-rose-700 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-bold">2</div><div><h5 class="font-semibold text-slate-700">Prioriser la prévention</h5><p class="text-slate-500">Administrer à intervalles réguliers.</p></div></div></div>
+                                    <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4"><div class="flex items-center gap-3"><div class="bg-rose-100 text-rose-700 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-bold">3</div><div><h5 class="font-semibold text-slate-700">Utiliser une approche par étapes</h5><p class="text-slate-500">Commencer avec l'antalgique adapté à l'intensité.</p></div></div></div>
+                                    <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4"><div class="flex items-center gap-3"><div class="bg-rose-100 text-rose-700 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-bold">4</div><div><h5 class="font-semibold text-slate-700">Individualisation</h5><p class="text-slate-500">Adapter le traitement à chaque patient.</p></div></div></div>
+                                    <div class="bg-white/70 backdrop-blur-sm rounded-xl shadow-lg p-4"><div class="flex items-center gap-3"><div class="bg-rose-100 text-rose-700 w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-bold">5</div><div><h5 class="font-semibold text-slate-700">Ajout de co-analgésiques</h5><p class="text-slate-500">Si nécessaire, surtout pour les douleurs neuro.</p></div></div></div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div id="quiz" class="antalgiques-page hidden">
+                        <div class="bg-gradient-to-br from-slate-50 to-gray-100 p-6 sm:p-8 md:p-10 rounded-2xl shadow-inner">
+                            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Quiz Interactif</h2>
+                            <p class="text-slate-600 mb-8">Testez vos connaissances et validez vos acquis sur les antalgiques.</p>
+                            
+                            <div id="qcm-container" class="space-y-8">
+                                <!-- Les questions du quiz seront injectées ici par le JavaScript -->
+                            </div>
+
+                            <div id="quiz-footer" class="mt-10 pt-6 border-t-2 border-slate-200 flex justify-between items-center">
+                                <p id="quiz-score" class="text-xl md:text-2xl font-bold text-slate-800"></p>
+                                <button id="reset-button" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 transform opacity-0 pointer-events-none">
+                                    Recommencer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder content for other modules -->
+
+                <!-- ANTI INFLAMMATOIRE MODULE CONTENT -->
+                 <div id="module-antiinflam" class="module-page hidden">
+        <main id="main-content" class="p-4 sm:p-6 md:p-8">
+
+            <!-- Inflammation Page -->
+<div id="module-antiinflam" class="module-page hidden">
+    <nav class="pb-6">
+        <div class="p-1.5 bg-slate-200/60 rounded-xl grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <button data-page="inflammation" class="antiinflam-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Inflammation</button>
+            <button data-page="ains" class="antiinflam-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">AINS</button>
+            <button data-page="cortico" class="antiinflam-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Corticoïdes</button>
+            <button data-page="quiz-inflam" class="antiinflam-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Quiz</button>
+        </div>
+    </nav>
+
+    <div id="inflammation" class="antiinflam-page">
+        <h2 class="text-2xl md:text-3xl font-bold text-purple-500 mb-6">🔥 LE PROCESSUS INFLAMMATOIRE</h2>
+        <div class="space-y-6 text-sm text-slate-700">
+            <p>L'inflammation est une réaction de défense naturelle de l'organisme face à une agression (infection, traumatisme, allergie...).</p>
+            <div class="bg-purple-50 p-4 rounded-xl border-2 border-red-300 shadow-lg">
+                <h3 class="font-semibold text-red-800 text-lg mb-2 border-b border-red-200 pb-1">Les Signes Cliniques</h3>
+                <ul class="list-disc list-inside space-y-1">
+                    <li><strong>Chaleur :</strong> Augmentation du flux sanguin (vasodilatation).</li>
+                    <li><strong>Rougeur :</strong> Augmentation du flux sanguin local.</li>
+                    <li><strong>Œdème/Gonflement :</strong> Sortie de plasma dans l'espace interstitiel.</li>
+                    <li><strong>Douleur :</strong> Stimulation des terminaisons nerveuses par les prostaglandines.</li>
+                </ul>
+            </div>
+            <div class="bg-red-100 p-5 rounded-xl border-2 border-red-300 shadow-lg">
+                <h3 class="font-bold text-red-800 text-lg mb-3">🔬 La Cascade Biochimique</h3>
+                <ol class="list-decimal list-inside space-y-3 pl-2">
+                    <li><span class="font-semibold text-red-700">Lésion Membranaire :</span> Libération de <strong>phospholipides</strong>.</li>
+                    <li><span class="font-semibold text-red-700">Action de la Phospholipase A2 (PL-A2) :</span> Transformation en <strong>Acide Arachidonique</strong>.
+                        <p class="mt-1 italic text-xs text-red-600">➡️ Cible des Corticoïdes : Ils inhibent la PL-A2.</p></li>
+                    <li><span class="font-semibold text-red-700">Action des Cyclooxygénases (COX) :</span> Transformation en <strong>Prostaglandines</strong>.
+                        <p class="italic text-xs text-red-600">➡️ Cible des AINS : Ils inhibent les COX.</p></li>
+                </ol>
+            </div>
+        </div>
     </div>
 
-    <script src="navigation.js" defer></script>
+    <div id="ains" class="antiinflam-page hidden">
+        <h2 class="text-2xl md:text-3xl font-bold text-orange-600">Anti-Inflammatoires Non Stéroïdiens (AINS)</h2>
+        <div class="space-y-4 mt-4">
+            <div class="bg-orange-50 p-4 rounded-lg">
+                <h3 class="font-semibold text-orange-800">⚙️ Mécanisme d'action</h3>
+                <p class="text-orange-700 text-sm">Inhibition de l'enzyme <strong>Cyclooxygénase (COX)</strong>, bloquant la synthèse des prostaglandines.</p>
+            </div>
+            <div class="bg-orange-50 p-4 rounded-lg">
+                <h3 class="font-semibold text-orange-800">⚠️ Effets Secondaires & Vigilance</h3>
+                <ul class="list-disc list-inside text-orange-700 text-sm space-y-1">
+                    <li><strong>Digestifs :</strong> Risque d'ulcère. <strong>À prendre au milieu d'un repas.</strong></li>
+                    <li><strong>Rénaux :</strong> Risque d'insuffisance rénale.</li>
+                    <li><strong>Cardiovasculaires :</strong> Augmentation du risque thrombotique.</li>
+                    <li><strong>Contre-indication :</strong> Grossesse (dès le 6e mois), association avec anticoagulants.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="cortico" class="antiinflam-page hidden">
+        <h2 class="text-2xl md:text-3xl font-bold text-lime-600">Corticoïdes (Glucocorticoïdes)</h2>
+        <div class="space-y-4 mt-4">
+            <div class="bg-lime-50 p-4 rounded-lg">
+                <h3 class="font-semibold text-lime-800">⚙️ Mécanisme d'action</h3>
+                <p class="text-lime-700 text-sm">Inhibition de la <strong>Phospholipase A2</strong>, coupant la source de l'acide arachidonique.</p>
+            </div>
+            <div class="bg-lime-50 p-4 rounded-lg">
+                <h3 class="font-semibold text-lime-800">⚠️ Effets Secondaires & Vigilance</h3>
+                <ul class="list-disc list-inside text-lime-700 text-sm space-y-1">
+                    <li><strong>Métaboliques :</strong> Hyperglycémie, rétention hydrosodée.</li>
+                    <li><strong>Infectieux :</strong> Immunodépression.</li>
+                    <li><strong>Endocriniens :</strong> Insuffisance surrénale aiguë si arrêt brutal.</li>
+                </ul>
+            </div>
+             <div class="bg-lime-100 p-4 rounded-lg border-l-4 border-lime-400">
+                <h3 class="font-semibold text-lime-800">🎓 Rôle Infirmier Clé</h3>
+                <ul class="list-disc list-inside text-lime-700 text-sm space-y-1 mt-2">
+                    <li>Prise <strong>matinale</strong> pour respecter le pic de cortisol.</li>
+                    <li>NE JAMAIS arrêter brutalement le traitement.</li>
+                    <li>Surveiller poids, glycémie, tension artérielle.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz-inflam" class="antiinflam-page hidden">
+        <div class="bg-gradient-to-br from-slate-50 to-gray-100 p-6 sm:p-8 md:p-10 rounded-2xl shadow-inner">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Quiz Interactif</h2>
+            <p class="text-slate-600 mb-8">Testez vos connaissances sur les AINS et les Corticoïdes.</p>
+            <div id="qcm-container-inflam" class="space-y-8">
+                </div>
+            <div id="quiz-footer-inflam" class="mt-10 pt-6 border-t-2 border-slate-200 flex justify-between items-center">
+                <p id="quiz-score-inflam" class="text-xl md:text-2xl font-bold text-slate-800"></p>
+                <button id="reset-button-inflam" class="bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 transform opacity-0 pointer-events-none">
+                    Recommencer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- AINS Page -->
+            <div id="ains" class="page hidden">
+                <h2 class="text-2xl md:text-3xl font-bold text-orange-600">Anti-Inflammatoires Non Stéroïdiens (AINS)</h2>
+                <div class="space-y-4 mt-4">
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-orange-800 mb-2">💊 Exemples</h3>
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-orange-100">
+                                <tr>
+                                    <th class="p-2 font-semibold text-orange-800">DCI</th>
+                                    <th class="p-2 font-semibold text-orange-800">Nom Commercial</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-orange-700">
+                                <tr><td class="p-2">Ibuprofène</td><td class="p-2">Advil®, Nurofen®</td></tr>
+                                <tr class="bg-orange-50"><td class="p-2">Kétoprofène</td><td class="p-2">Profénid®</td></tr>
+                                <tr><td class="p-2">Acide acétylsalicylique (à fortes doses)</td><td class="p-2">Aspirine®</td></tr>
+                                <tr class="bg-orange-50"><td class="p-2">Diclofénac</td><td class="p-2">Voltarène®</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-orange-800">⚙️ Mécanisme d'action</h3>
+                        <p class="text-orange-700 text-sm">Inhibition de l'enzyme <strong>Cyclooxygénase (COX)</strong>, ce qui bloque la synthèse des prostaglandines (médiateurs de la douleur et de l'inflammation). Certains inhibent COX-1 et COX-2 de manière non sélective, d'autres sont plus sélectifs COX-2 (Coxibs).</p>
+                    </div>
+                    <div class="bg-orange-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-orange-800">⚠️ Effets Secondaires & Vigilance</h3>
+                        <ul class="list-disc list-inside text-orange-700 text-sm space-y-1">
+                            <li><strong>Digestifs (COX-1)</strong> : Risque d'ulcère gastro-duodénal et d'hémorragie digestive. <span class="font-bold">À prendre au milieu d'un repas.</span></li>
+                            <li><strong>Rénaux</strong> : Risque d'insuffisance rénale (surtout chez les patients déshydratés ou âgés).</li>
+                            <li><strong>Cardiovasculaires (COX-2)</strong> : Augmentation du risque thrombotique (infarctus, AVC).</li>
+                            <li><strong>Interactions :</strong> Formellement contre-indiqués avec les <strong>anticoagulants</strong> (augmentation du risque hémorragique) et les <strong>corticoïdes</strong> (augmentation du risque digestif).</li>
+                            <li><strong>Contre-indication :</strong> Grossesse (dès le 6e mois), insuffisance rénale ou hépatique sévère.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-orange-100 p-4 rounded-lg border-l-4 border-orange-400">
+                        <h3 class="font-semibold text-orange-800">🎓 Rôle Infirmier Clé</h3>
+                        <ul class="list-disc list-inside text-orange-700 text-sm space-y-1 mt-2">
+                            <li>Éduquer le patient à la <strong>prise au milieu des repas</strong> et à l'hydratation.</li>
+                            <li>Surveiller les signes de saignement digestif (méléna, hématémèse).</li>
+                            <li>Vérifier l'absence d'association avec d'autres AINS, anticoagulants ou corticoïdes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Corticoïdes Page -->
+            <div id="cortico" class="page hidden">
+                <h2 class="text-2xl md:text-3xl font-bold text-lime-600">Corticoïdes (Glucocorticoïdes)</h2>
+                <div class="space-y-4 mt-4">
+                    <div class="bg-lime-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lime-800 mb-2">💊 Exemples</h3>
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-lime-100">
+                                <tr>
+                                    <th class="p-2 font-semibold text-lime-800">DCI</th>
+                                    <th class="p-2 font-semibold text-lime-800">Nom Commercial</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-lime-700">
+                                <tr><td class="p-2">Prednisone</td><td class="p-2">Cortancyl®</td></tr>
+                                <tr class="bg-lime-50"><td class="p-2">Prednisolone</td><td class="p-2">Solupred®</td></tr>
+                                <tr><td class="p-2">Dexaméthasone</td><td class="p-2">Decadron®</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-lime-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lime-800">⚙️ Mécanisme d'action</h3>
+                        <p class="text-lime-700 text-sm">Puissant effet anti-inflammatoire en agissant directement sur l'ADN des cellules et en inhibant la <strong>Phospholipase A2</strong>, coupant ainsi la source de l'acide arachidonique et donc la synthèse de tous les médiateurs inflammatoires (prostaglandines et leucotriènes).</p>
+                    </div>
+                    <div class="bg-lime-50 p-4 rounded-lg">
+                        <h3 class="font-semibold text-lime-800">⚠️ Effets Secondaires & Vigilance (Traitement au long cours)</h3>
+                        <ul class="list-disc list-inside text-lime-700 text-sm space-y-1">
+                            <li><strong>Métaboliques :</strong> Hyperglycémie (risque de diabète), rétention hydrosodée (œdèmes, hypertension).</li>
+                            <li><strong>Osseux :</strong> Ostéoporose.</li>
+                            <li><strong>Infectieux :</strong> Immunodépression (masque les signes d'infection).</li>
+                            <li><strong>Digestifs :</strong> Risque d'ulcère gastro-duodénal (d'où l'association fréquente avec un IPP).</li>
+                            <li><strong>Endocriniens :</strong> <strong>Insuffisance surrénale aiguë</strong> si l'arrêt est brutal (nécessité d'un sevrage progressif).</li>
+                        </ul>
+                    </div>
+                    <div class="bg-lime-100 p-4 rounded-lg border-l-4 border-lime-400">
+                        <h3 class="font-semibold text-lime-800">🎓 Rôle Infirmier Clé</h3>
+                        <ul class="list-disc list-inside text-lime-700 text-sm space-y-1 mt-2">
+                            <li>Éduquer sur la <strong>prise matinale</strong> (pour respecter le pic de cortisol physiologique).</li>
+                            <li>NE JAMAIS arrêter brutalement le traitement (risque d'insuffisance surrénale).</li>
+                            <li>Surveiller le poids, la glycémie, la tension artérielle.</li>
+                            <li>Informer le patient sur le risque infectieux et les signes à surveiller.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Page -->
+            <div id="quiz" class="page hidden">
+                <div class="bg-gradient-to-br from-slate-50 to-gray-100 p-6 sm:p-8 md:p-10 rounded-2xl shadow-inner">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Quiz Interactif</h2>
+                    <p class="text-slate-600 mb-8">Testez vos connaissances sur les AINS et les Corticoïdes.</p>
+                    
+                    <div id="qcm-container" class="space-y-8">
+                        <!-- Les questions du quiz seront injectées ici par le JavaScript -->
+                    </div>
+
+                    <div id="quiz-footer" class="mt-10 pt-6 border-t-2 border-slate-200 flex justify-between items-center">
+                        <p id="quiz-score" class="text-xl md:text-2xl font-bold text-slate-800"></p>
+                        <button onclick="resetQuiz()" id="reset-button" class="bg-gradient-to-r from-teal-500 via-cyan-500 to-blue-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 transform opacity-0 pointer-events-none">
+                            Recommencer
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+
+
+
+
+
+                </div>
+
+
+
+
+
+                <div id="module-antico" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Anticoagulants</h2>
+                    <p class="text-slate-600">Contenu sur les anticoagulants à venir...</p>
+                </div>
+                 <div id="module-antihta" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Antihypertenseurs</h2>
+                    <p class="text-slate-600">Contenu sur les antihypertenseurs à venir...</p>
+                </div>
+                <div id="module-antiarythm" class="module-page hidden">
+                    <nav class="pb-6">
+                        <div class="p-1.5 bg-slate-200/60 rounded-xl grid grid-cols-4 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                            <button data-page="classe1" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Stab. Membrane</button>
+                            <button data-page="classe2" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Bêta-bloquants</button>
+                            <button data-page="classe3" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Inhib. Potassiques</button>
+                            <button data-page="classe4" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Inhib. Calciques</button>
+                            <button data-page="digitaliques" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Digitaliques</button>
+                            <button data-page="quiz-antiarythm" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Quiz</button>
+                            <button data-page="synthese" class="antiarythm-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm">Synthèse</button>
+                        </div>
+                    </nav>
+
+                    <div id="classe1" class="antiarythm-page">
+                        <h2 class="text-2xl md:text-3xl font-bold text-red-600">Classe I : Stabilisants de membrane</h2>
+                        <div class="space-y-4 mt-4">
+                            <div class="bg-rose-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-red-800">⚙️ Mécanisme d'action général</h3>
+                                <p class="text-red-700 text-sm">Bloquent les canaux sodiques, ce qui ralentit la dépolarisation des cellules cardiaques. Ils stabilisent la membrane cellulaire pour réduire l'excitabilité cardiaque.</p>
+                            </div>
+                            
+                            <div class="bg-red-100 p-4 rounded-lg">
+                            <h3 class="text-xl font-bold text-red-700 pt-4">Sous-classe Ia (ex: Serecor®, Rythmodan®)</h3>
+                            <div class="bg-red-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">🔬 Indications & Effets</h4>
+                                <p class="text-red-700 text-sm">Traitement des troubles supraventriculaires. Accélèrent le rythme et facilitent la conduction auriculo-ventriculaire.</p>
+                            </div>
+                                <div class="p-4 bg-red-200 border border-red-400 rounded-lg">
+                                <h4 class="font-semibold text-red-800">⚠️ Points de vigilance</h4>
+                                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+                                    <li><strong>Pouvoir arythmogène important :</strong> Risque de torsades de pointes.</li>
+                                    <li><strong>Surveillance de la kaliémie :</strong> Une hypokaliémie majore les risques.</li>
+                                    <li><strong>Hypersensibilité :</strong> Réactions immédiates (hypotension) ou retardées (cinchonisme).</li>
+                                    <li><strong>Effets atropiniques (Disopyramide) :</strong> Bouche sèche, constipation, rétention urinaire.</li>
+                                </ul>
+                            </div>
+                            </div>
+                            
+                            <div class="bg-red-100 p-4 rounded-lg">
+                            <h3 class="text-xl font-bold text-red-700 pt-4">Sous-classe Ib (ex: Xylocard®, Dilantin®)</h3>
+                             <div class="bg-red-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">🔬 Indications & Effets</h4>
+                                <p class="text-red-700 text-sm">Traitement des troubles du rythme ventriculaires graves, notamment lors d'intoxication digitalique (Phénytoïne).</p>
+                            </div>
+                                <div class="p-4 bg-red-200 border border-red-400 rounded-lg">
+                                <h4 class="font-semibold text-red-800">⚠️ Points de vigilance</h4>
+                                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+                                    <li><strong>Administration parentérale stricte (Lidocaïne)</strong> en raison du premier passage hépatique.</li>
+                                    <li><strong>Signes de toxicité :</strong> neurotoxicité (agitation, confusion, convulsions) et troubles cardiovasculaires (hypotension, troubles du rythme).</li>
+                                </ul>
+                            </div>
+                            </div>
+
+                            <div class="bg-red-100 p-4 rounded-lg">
+                            <h3 class="text-xl font-bold text-red-700 pt-4">Sous-classe Ic (ex: Flecaïne®, Rythmol®)</h3>
+                            <div class="bg-red-100 p-4 rounded-lg">
+                                <h4 class="font-semibold text-red-800">🔬 Indications & Effets</h4>
+                                <p class="text-red-700 text-sm">Prévention et traitement des troubles supraventriculaires. Ralentissent fortement la conduction.</p>
+                            </div>
+                                <div class="p-4 bg-red-200 border border-red-400 rounded-lg">
+                                <h4 class="font-semibold text-red-800">⚠️ Points de vigilance</h4>
+                                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+                                    <li><strong>Effets pro-arythmogènes :</strong> peuvent aggraver des troubles du rythme.</li>
+                                    <li><strong>Effets cardiaques :</strong> Poussées d'insuffisance cardiaque, ralentissement de la conduction.</li>
+                                    <li><strong>Incompatibilité (Flécaïnide IV) :</strong> Ne pas diluer dans du NaCl, utiliser du sérum glucosé.</li>
+                                </ul>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="classe2" class="antiarythm-page hidden">
+                        <h2 class="text-2xl md:text-3xl font-bold text-purple-600">Classe II : Bêta-bloquants</h2>
+                        <div class="space-y-4 mt-4">
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-purple-800 mb-2">💊 Exemples</h3>
+                                <p class="text-purple-700 text-sm">Acébutolol, Aténolol, Métoprolol (VO), Esmolol, Propranolol (IV)...</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-purple-800">⚙️ Mécanisme d'action</h3>
+                                <p class="text-purple-700 text-sm">Bloquent les récepteurs bêta-adrénergiques, ce qui diminue la stimulation sympathique du cœur. Ils réduisent la fréquence cardiaque, la force de contraction et la vitesse de conduction.</p>
+                            </div>
+                            <div class="bg-purple-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-purple-800">🔬 Indications</h3>
+                                <p class="text-purple-700 text-sm">Ralentissement de la fréquence ventriculaire lors de fibrillation auriculaire. Prévention des arythmies ventriculaires après un infarctus du myocarde.</p>
+                            </div>
+                            <div class="bg-purple-100 p-4 rounded-lg border-l-4 border-purple-400">
+                                <h3 class="font-semibold text-purple-800">⚠️ Points de vigilance & Contre-indications</h3>
+                                <ul class="list-disc list-inside text-purple-700 text-sm space-y-1">
+                                    <li><strong>Contre-indications :</strong> Bradycardie/hypotension sévère, BAV, insuffisance cardiaque décompensée, asthme et BPCO.</li>
+                                    <li><strong>Effets indésirables :</strong> Bradycardie, fatigue, troubles digestifs, impuissance, masquage des signes d'hypoglycémie chez le diabétique.</li>
+                                    <li><strong>Ne JAMAIS interrompre brutalement :</strong> Risque d'effet rebond (tachycardie, HTA).</li>
+                                    <li><strong>Surveillance :</strong> Pouls, tension artérielle.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="classe3" class="antiarythm-page hidden">
+                        <h2 class="text-2xl md:text-3xl font-bold text-red-600">Classe III : Inhibiteurs des canaux potassiques</h2>
+                         <div class="space-y-4 mt-4">
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-red-800 mb-2">💊 Spécialités</h3>
+                                <p class="text-red-700 text-sm">Amiodarone (Cordarone®), Sotalol (Sotalex®)</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-red-800">⚙️ Mécanisme d'action</h3>
+                                <p class="text-red-700 text-sm">Allongent la durée du potentiel d'action et la période réfractaire en bloquant les canaux potassiques. Cela ralentit la fréquence cardiaque et diminue l'excitabilité myocardique. Allongent l'espace QT.</p>
+                            </div>
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-red-800">🔬 Indications</h3>
+                                <p class="text-red-700 text-sm">Troubles du rythme graves, ventriculaires et supraventriculaires (ex: fibrillation ventriculaire).</p>
+                            </div>
+                            <div class="bg-red-100 p-4 rounded-lg border-l-4 border-red-400">
+                                <h3 class="font-semibold text-red-800">⚠️ Points de vigilance pour l'Amiodarone</h3>
+                                <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+                                    <li><strong>Effet pro-arythmogène :</strong> Risque majeur de torsade de pointe.</li>
+                                    <li><strong>Troubles thyroïdiens :</strong> Hypo ou hyperthyroïdie (bilan TSH avant et pendant le ttt).</li>
+                                    <li><strong>Toxicité pulmonaire :</strong> Pneumopathies.</li>
+                                    <li><strong>Toxicité oculaire :</strong> Micro-dépôts cornéens (vision de halos colorés).</li>
+                                    <li><strong>Cutanés :</strong> Photosensibilisation (protection solaire indispensable).</li>
+                                    <li><strong>Administration IV :</strong> Uniquement dans du sérum glucosé, jamais en IVD (sauf ACR).</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="classe4" class="antiarythm-page hidden">
+                        <h2 class="text-2xl md:text-3xl font-bold text-green-600">Classe IV : Inhibiteurs calciques</h2>
+                         <div class="space-y-4 mt-4">
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-green-800 mb-2">💊 Spécialités (à tropisme cardiaque)</h3>
+                                <p class="text-green-700 text-sm">Vérapamil (Isoptine®), Diltiazem (Tildiem®)</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-green-800">⚙️ Mécanisme d'action</h3>
+                                <p class="text-green-700 text-sm">Bloquent l'entrée du calcium dans les cellules cardiaques, ce qui diminue la force de contraction (inotropes négatifs), ralentit la fréquence cardiaque (chronotropes négatifs) et ralentit la conduction auriculo-ventriculaire.</p>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-green-800">🔬 Indications</h3>
+                                <p class="text-green-700 text-sm">Traitement et prévention des tachycardies supraventriculaires. Également utilisés dans l'HTA et l'angor.</p>
+                            </div>
+                            <div class="bg-green-100 p-4 rounded-lg border-l-4 border-green-400">
+                                <h3 class="font-semibold text-green-800">⚠️ Points de vigilance</h3>
+                                <ul class="list-disc list-inside text-green-700 text-sm space-y-1">
+                                     <li><strong>Effets cardiaques :</strong> Bradycardie, hypotension, troubles de la conduction (BAV).</li>
+                                     <li><strong>Vasodilatation :</strong> Céphalées, bouffées de chaleur, œdèmes des membres inférieurs.</li>
+                                     <li><strong>Troubles digestifs :</strong> Constipation marquée avec le Vérapamil.</li>
+                                     <li><strong>Hyperplasie gingivale :</strong> Importance d'une bonne hygiène bucco-dentaire.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="digitaliques" class="antiarythm-page hidden">
+                        <h2 class="text-2xl md:text-3xl font-bold text-amber-600">Les Digitaliques</h2>
+                        <div class="space-y-4 mt-4">
+                             <div class="bg-amber-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-amber-800 mb-2">💊 Spécialité</h3>
+                                <p class="text-amber-700 text-sm">Digoxine (Digoxine®, Hemigoxine®)</p>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-amber-800">⚙️ Mécanisme d'action - La règle des 3 R</h3>
+                                <ul class="list-disc list-inside text-amber-700 text-sm space-y-1">
+                                    <li><strong>Renforce :</strong> Augmente la force de contraction du cœur (inotropes positifs).</li>
+                                    <li><strong>Ralentit :</strong> Diminue la fréquence cardiaque (chronotropes négatifs).</li>
+                                    <li><strong>Régularise :</strong> Ralentit la conduction dans le nœud auriculo-ventriculaire.</li>
+                                </ul>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-lg">
+                                <h3 class="font-semibold text-amber-800">🔬 Indications</h3>
+                                <p class="text-amber-700 text-sm">Insuffisance cardiaque, troubles du rythme supra-ventriculaires (fibrillation auriculaire).</p>
+                            </div>
+                            <div class="bg-amber-100 p-4 rounded-lg border-l-4 border-amber-400">
+                                <h3 class="font-semibold text-amber-800">⚠️ Points de vigilance : Marge thérapeutique étroite !</h3>
+                                <ul class="list-disc list-inside text-amber-700 text-sm space-y-1">
+                                    <li><strong>Risque de surdosage :</strong> L'intervalle entre la dose efficace et la dose toxique est très faible.</li>
+                                    <li><strong>Signes d'intoxication :</strong> troubles digestifs (nausées, vomissements), troubles de la vision des couleurs (dyschromatopsie), troubles psy (confusion).</li>
+                                    <li><strong>Surveillance biologique :</strong> Kaliémie (l'hypokaliémie majore la toxicité), digoxinémie (après 6 jours de traitement).</li>
+                                    <li><strong>ECG :</strong> L'aspect "en cupule" du segment ST est un signe d'imprégnation (normal), pas de surdosage.</li>
+                                    <li><strong>Contre-indications :</strong> Calcium IV, Millepertuis.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="quiz-antiarythm" class="antiarythm-page hidden">
+                        <div class="bg-gradient-to-br from-slate-50 to-gray-100 p-6 sm:p-8 md:p-10 rounded-2xl shadow-inner">
+                            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 mb-2">Quiz Interactif</h2>
+                            <p class="text-slate-600 mb-8">Testez vos connaissances sur les anti-arythmiques et les digitaliques.</p>
+                            
+                            <div id="qcm-container-antiarythm" class="space-y-8">
+                                </div>
+
+                            <div id="quiz-footer-antiarythm" class="mt-10 pt-6 border-t-2 border-slate-200 flex justify-between items-center">
+                                <p id="quiz-score-antiarythm" class="text-xl md:text-2xl font-bold text-slate-800"></p>
+                                <button id="reset-button-antiarythm" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all duration-200 transform opacity-0 pointer-events-none">
+                                    Recommencer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="synthese" class="antiarythm-page hidden">
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-700">Tableau de Synthèse</h2>
+                        <div class="mt-4 overflow-x-auto">
+                            <table class="w-full text-sm text-left shadow-md rounded-lg">
+                                <thead class="bg-gray-700 text-white">
+                                    <tr>
+                                        <th class="p-3">Classe</th>
+                                        <th class="p-3">Mécanisme Principal</th>
+                                        <th class="p-3">Exemple Clé</th>
+                                        <th class="p-3">Vigilance Majeure</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-gray-800">
+                                    <tr class="bg-rose-50 border-b"><td class="p-3 font-semibold">Classe I</td><td class="p-3">Blocage canaux Na+</td><td class="p-3">Flécaïnide (Flecaïne®)</td><td class="p-3">Effet pro-arythmogène</td></tr>
+                                    <tr class="bg-purple-50 border-b"><td class="p-3 font-semibold">Classe II</td><td class="p-3">Bêta-bloquant</td><td class="p-3">Métoprolol</td><td class="p-3">Ne jamais arrêter brutalement, CI (asthme, BAV)</td></tr>
+                                    <tr class="bg-red-50 border-b"><td class="p-3 font-semibold">Classe III</td><td class="p-3">Blocage canaux K+</td><td class="p-3">Amiodarone (Cordarone®)</td><td class="p-3">Toxicité multiple (thyroïde, poumon, peau), torsades de pointes</td></tr>
+                                    <tr class="bg-green-50 border-b"><td class="p-3 font-semibold">Classe IV</td><td class="p-3">Blocage canaux Ca2+</td><td class="p-3">Vérapamil (Isoptine®)</td><td class="p-3">Bradycardie, BAV, constipation</td></tr>
+                                    <tr class="bg-amber-50"><td class="p-3 font-semibold">Digitaliques</td><td class="p-3">Inotrope +, Chronotrope -</td><td class="p-3">Digoxine</td><td class="p-3">Marge thérapeutique étroite, surveillance kaliémie & digoxinémie</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                         <div class="bg-slate-50 p-4 rounded-lg mt-8">
+                                <h3 class="font-semibold text-slate-800 mb-2">📊 Comparaison des Classes d'Anti-arythmiques</h3>
+                                <div class="flex justify-center items-center">
+                                    <div class="w-full md:w-3/4 lg:w-1/2">
+                                        <canvas id="aarChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div id="module-antidiabetiques" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Anti-diabétiques</h2>
+                    <p class="text-slate-600">Contenu sur les anti-diabétiques à venir...</p>
+                </div>
+                <div id="module-hypolipemiants" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Hypolipémiants</h2>
+                    <p class="text-slate-600">Contenu sur les hypolipémiants à venir...</p>
+                </div>
+                <div id="module-asthme" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Antiasthmatiques & Antihistaminiques</h2>
+                    <p class="text-slate-600">Contenu sur les antiasthmatiques à venir...</p>
+                </div>
+                <div id="module-digestif" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Thérapeutiques Digestives</h2>
+                    <p class="text-slate-600">Contenu sur les thérapeutiques digestives à venir...</p>
+                </div>
+                 <div id="module-anticancer" class="module-page hidden">
+                    <h2 class="text-3xl font-bold text-slate-800 mb-4">Traitements anticancéreux</h2>
+                    <p class="text-slate-600">Contenu sur les traitements anticancéreux à venir...</p>
+                </div>
+
+            </main>
+        </div>
+        
+        <!-- Footer (Replicating Header Style) -->
+        <footer id="footer" class="bg-slate-800 text-white p-4 md:p-6 mt-auto rounded-b-xl shadow-inner">
+            <div class="max-w-7xl mx-auto flex items-center justify-center text-center">
+                <!-- Mobile/Tablet & Desktop Author Info (Footer) -->
+                <p class="font-bold text-slate-300 text-xs sm:text-sm">
+                <span class="bg-gradient-to-r from-sky-400 via-violet-500 to-pink-500 bg-clip-text text-transparent">Lucas Séraudie</span> - 2025
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Feather Icons Initialization ---
+            feather.replace();
+
+            // --- Sidebar and Main Navigation Logic ---
+            const mainContent = document.getElementById('main-content');
+            const mainTitle = document.getElementById('main-title');
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            const modulePages = document.querySelectorAll('.module-page');
+            const navLinks = document.querySelectorAll('.nav-link, .module-card');
+            
+            const originalTitleHTML = mainTitle.innerHTML;
+            const originalTitleClassName = mainTitle.className;
+            let antalgiquesModuleInitialized = false;
+            let antiInflamModuleInitialized = false;
+            let antiarythmModuleInitialized = false;
+
+
+            const moduleTitleColors = {
+                antalgiques: 'from-cyan-400 to-blue-500',
+                antiinflam: 'from-purple-400 to-pink-500',
+                antico: 'from-red-500 to-orange-500',
+                antihta: 'from-emerald-500 to-green-600',
+                antiarythm: 'from-pink-400 to-rose-500',
+                antidiabetiques: 'from-purple-400 to-violet-500',
+                hypolipemiants: 'from-teal-500 to-cyan-600',
+                asthme: 'from-fuchsia-600 to-purple-700',
+                digestif: 'from-lime-500 to-green-600',
+                anticancer: 'from-blue-500 to-blue-700'
+            };
+
+            // Function to show a specific main page/module
+            const showPage = (pageId) => {
+                const cleanPageId = pageId.startsWith('#') ? pageId.substring(1) : pageId;
+                if (cleanPageId === 'antiinflam' && !antiInflamModuleInitialized) {
+                        initializeAntiInflamModule();
+                        }
+                modulePages.forEach(page => {
+                    if (page.id === `module-${cleanPageId}`) {
+                        page.classList.remove('hidden');
+                    } else {
+                        page.classList.add('hidden');
+                    }
+                });
+
+                // Update main title
+                const activeLink = document.querySelector(`.nav-link[href="#${cleanPageId}"], .module-card[href="#${cleanPageId}"]`);
+                if (activeLink && cleanPageId !== 'accueil') {
+                    const titleText = activeLink.querySelector('h3')?.textContent || activeLink.textContent.trim();
+                    mainTitle.innerHTML = ''; // Clear content
+                    mainTitle.textContent = titleText;
+                    
+                    const gradientColors = moduleTitleColors[cleanPageId];
+                    if (gradientColors) {
+                        mainTitle.className = `text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r ${gradientColors} bg-clip-text text-transparent pb-2`;
+                    } else {
+                        // Fallback for modules without a defined color
+                        mainTitle.className = "text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white pb-2"; 
+                    }
+                } else {
+                     mainTitle.innerHTML = originalTitleHTML;
+                     mainTitle.className = originalTitleClassName;
+                }
+
+                // Scroll main content to top
+                mainContent.scrollTop = 0;
+
+                 // Update active link in sidebar using a dedicated class
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === `#${cleanPageId}`) {
+                        link.classList.add('active-link');
+                    }
+                });
+                
+                // Close sidebar on mobile after navigation
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+
+                // --- Initialize Antalgiques module if it's the one being shown ---
+                if (cleanPageId === 'antalgiques' && !antalgiquesModuleInitialized) {
+                    initializeAntalgiquesModule();
+                }
+
+                if (cleanPageId === 'antiarythm' && !antiarythmModuleInitialized) {
+                    initializeAntiarythmiquesModule();
+                }
+            };
+            
+            // Event listener for all navigation links (sidebar and cards)
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    history.pushState(null, '', targetId); // Update URL without reloading
+                    showPage(targetId);
+                });
+            });
+
+            // Handle browser back/forward buttons
+            window.addEventListener('popstate', () => {
+                showPage(window.location.hash || '#accueil');
+            });
+
+            // Show initial page based on URL hash or default to home
+            showPage(window.location.hash || '#accueil');
+            
+            // --- Mobile Sidebar Toggle ---
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+            
+             // --- Close sidebar when clicking outside on mobile ---
+             document.addEventListener('click', (event) => {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnMenuToggle = menuToggle.contains(event.target);
+                if (!isClickInsideSidebar && !isClickOnMenuToggle && window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            });
+
+            // --- ANTALGIQUES MODULE SPECIFIC LOGIC ---
+
+            const antalgiquesQuizData = [
+            {
+                question: "Quel est l'antidote du paracétamol en cas de surdosage ?",
+                options: ["Naloxone", "N-acétylcystéine", "Sulfate de protamine", "Vitamine K"],
+                correct: 1,
+                feedback: "La N-acétylcystéine est l'antidote spécifique pour l'hépatotoxicité induite par un surdosage de paracétamol."
+            },
+            {
+                question: "Quel est le risque principal associé à la prise d'Anti-Inflammatoires Non Stéroïdiens (AINS) ?",
+                options: ["Hépatotoxicité", "Dépression respiratoire", "Lésions gastro-intestinales", "Syndrome sérotoninergique"],
+                correct: 2,
+                feedback: "Les AINS inhibent les prostaglandines qui protègent la muqueuse gastrique, augmentant le risque d'ulcères et d'hémorragies digestives."
+            },
+            {
+                question: "La codéine est une pro-drogue. En quelle substance active est-elle métabolisée dans le corps ?",
+                options: ["Tramadol", "Morphine", "Fentanyl", "Oxycodone"],
+                correct: 1,
+                feedback: "La codéine est métabolisée en morphine par le foie, ce qui lui confère son effet analgésique."
+            },
+            {
+                question: "Quel opioïde fort est connu pour être environ 100 fois plus puissant que la morphine ?",
+                options: ["Tramadol", "Néfopam", "Fentanyl", "Oxycodone"],
+                correct: 2,
+                feedback: "Le fentanyl est un opioïde de synthèse extrêmement puissant, utilisé pour les douleurs intenses."
+            },
+            {
+                question: "Quelle est la contre-indication absolue commune à tous les opioïdes forts ?",
+                options: ["Hypertension artérielle", "Insuffisance respiratoire sévère", "Diabète", "Allergie au paracétamol"],
+                correct: 1,
+                feedback: "Les opioïdes peuvent provoquer une dépression respiratoire, leur usage est donc contre-indiqué en cas d'insuffisance respiratoire sévère."
+            },
+            {
+                question: "Quel est l'antidote universel pour les surdosages aux opioïdes (morphine, fentanyl, etc.) ?",
+                options: ["N-acétylcystéine", "Charbon activé", "Adrénaline", "Naloxone"],
+                correct: 3,
+                feedback: "La naloxone (Narcan®) est un antagoniste des récepteurs opioïdes qui inverse rapidement leurs effets, notamment la dépression respiratoire."
+            },
+            {
+                question: "Pour quel type de douleur les co-analgésiques comme la gabapentine (Neurontin®) sont-ils principalement utilisés ?",
+                options: ["Douleurs nociceptives", "Douleurs neuropathiques", "Douleurs post-opératoires aiguës", "Céphalées de tension"],
+                correct: 1,
+                feedback: "Les antiépileptiques comme la gabapentine sont particulièrement efficaces pour les douleurs liées à une lésion du système nerveux (neuropathiques)."
+            },
+            {
+                question: "Quel est le délai d'action d'un patch transdermique de Fentanyl pour atteindre son efficacité optimale ?",
+                options: ["5-10 minutes", "1 heure", "12-24 heures", "72 heures"],
+                correct: 2,
+                feedback: "La diffusion transdermique est lente. L'effet optimal n'est atteint qu'après 12 à 24 heures, ce qui le réserve aux douleurs chroniques stables."
+            },
+            {
+                question: "Quelle est la posologie maximale journalière de paracétamol pour un adulte sans insuffisance hépatique ?",
+                options: ["2 g/jour", "3 g/jour", "4 g/jour", "6 g/jour"],
+                correct: 2,
+                feedback: "La dose maximale est de 4g par jour, généralement répartie en 4 prises de 1g espacées d'au moins 4 à 6 heures."
+            },
+            {
+                question: "Le tramadol (Topalgic®) a un double mécanisme d'action. Lequel ?",
+                options: ["Agoniste opioïde et AINS", "Agoniste opioïde et inhibiteur de la recapture de la sérotonine/noradrénaline", "Antagoniste opioïde et antipyrétique", "AINS et anxiolytique"],
+                correct: 1,
+                feedback: "Le tramadol agit sur les récepteurs µ-opioïdes et inhibe la recapture de neurotransmetteurs, ce qui le rend utile pour certaines douleurs neuropathiques."
+            },
+            {
+                question: "L'Acupan® (Néfopam) est contre-indiqué en cas de :",
+                options: ["Asthme", "Hypertension", "Diabète", "Épilepsie"],
+                correct: 3,
+                feedback: "Le Néfopam peut abaisser le seuil épileptogène, il est donc contre-indiqué chez les patients épileptiques."
+            },
+            {
+                question: "Quel effet secondaire est quasi systématique avec les traitements opioïdes au long cours et doit être anticipé ?",
+                options: ["La diarrhée", "La constipation", "Les hallucinations", "La tachycardie"],
+                correct: 1,
+                feedback: "Les opioïdes ralentissent le transit intestinal, provoquant une constipation qui nécessite souvent un traitement laxatif préventif."
+            },
+            {
+                question: "L'échelle EVS pour évaluer la douleur est une échelle...",
+                options: ["Verbale Simple (avec des mots)", "Numérique (de 0 à 10)", "Visuelle Analogique (avec un curseur)", "Comportementale"],
+                correct: 0,
+                feedback: "L'EVS (Échelle Verbale Simple) propose au patient de choisir des mots pour qualifier sa douleur (absente, faible, modérée, intense)."
+            },
+            {
+                question: "L'amitriptyline (Laroxyl®) est un co-analgésique appartenant à quelle classe de médicaments ?",
+                options: ["Antiépileptiques", "Antidépresseurs", "AINS", "Anxiolytiques"],
+                correct: 1,
+                feedback: "L'amitriptyline est un antidépresseur tricyclique utilisé à plus faible dose pour son effet sur les douleurs chroniques, notamment neuropathiques."
+            },
+            {
+                question: "Quel est le principal avantage de l'oxycodone à libération immédiate (Oxynorm®) par rapport à sa forme à libération prolongée (Oxycontin®) ?",
+                options: ["Moins d'effets secondaires", "Un délai d'action plus rapide", "Une durée d'action de 24h", "Pas de risque de dépendance"],
+                correct: 1,
+                feedback: "La forme à libération immédiate (LI) agit rapidement (15-30 min) et est utilisée pour les pics douloureux (interdoses)."
+            },
+            {
+                question: "Selon l'OMS, quelle voie d'administration doit être privilégiée pour les antalgiques ?",
+                options: ["La voie intraveineuse (IV)", "La voie intramusculaire (IM)", "La voie per os (PO)", "La voie sous-cutanée (SC)"],
+                correct: 2,
+                feedback: "La voie orale (Per Os) est la plus simple, la moins invasive et la plus confortable pour le patient."
+            },
+            {
+                question: "Une douleur décrite comme une 'brûlure' ou des 'chocs électriques' est typique d'une douleur...",
+                options: ["Nociceptive", "Neuropathique", "Nociplastique", "Aiguë"],
+                correct: 1,
+                feedback: "Ces descriptions sont caractéristiques d'une atteinte du système nerveux, donc d'une douleur neuropathique."
+            },
+            {
+                question: "Parmi ces médicaments, lequel n'est PAS un opioïde ?",
+                options: ["Codéine", "Néfopam", "Morphine", "Tramadol"],
+                correct: 1,
+                feedback: "Le Néfopam (Acupan®) est un antalgique central non opioïde."
+            },
+            {
+                question: "Quel est le délai d'action approximatif du paracétamol administré par voie intraveineuse pour son effet antalgique ?",
+                options: ["Immédiat", "5 minutes", "30 minutes", "1 heure (pic d'efficacité)"],
+                correct: 3,
+                feedback: "Le pic d'efficacité antalgique du paracétamol IV est atteint en environ 1 heure. L'effet sur la fièvre est plus rapide (30 min)."
+            },
+            {
+                question: "L'un des '5 principes' de l'OMS pour l'administration des antalgiques est 'l'individualisation'. Qu'est-ce que cela signifie ?",
+                options: ["Donner le même traitement à tout le monde", "Adapter le traitement à chaque patient", "Utiliser uniquement des co-analgésiques", "Commencer toujours par un opioïde fort"],
+                correct: 1,
+                feedback: "L'individualisation consiste à adapter le choix de la molécule, la posologie et la voie d'administration en fonction du patient, de sa douleur et de sa tolérance."
+            }
+            ];
+
+            const antalgiquesSubPages = ['douleur', 'nonopioides', 'opioidesfaibles', 'opioidesforts', 'coanalgesiques', 'role', 'quiz'];
+            const antalgiquesButtonColors = {
+                douleur: 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-md',
+                nonopioides: 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md',
+                opioidesfaibles: 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white shadow-md',
+                opioidesforts: 'bg-gradient-to-r from-red-500 to-orange-500 text-white shadow-md',
+                coanalgesiques: 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md',
+                role: 'bg-gradient-to-r from-pink-500 to-rose-600 text-white shadow-md',
+                quiz: 'bg-gradient-to-r from-slate-500 to-gray-700 text-white shadow-md'
+            };
+
+            function showAntalgiquesSubPage(pageId) {
+                antalgiquesSubPages.forEach(id => {
+                    const page = document.getElementById(id);
+                    if (page) page.classList.add('hidden');
+                });
+                const activePage = document.getElementById(pageId);
+                if (activePage) activePage.classList.remove('hidden');
+                
+                const navButtons = document.querySelectorAll('.antalgiques-nav-btn');
+                navButtons.forEach(btn => {
+                    const page = btn.dataset.page;
+                    btn.className = 'antalgiques-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm';
+                    btn.classList.add(`hover:bg-${page === 'douleur' ? 'cyan' : page === 'nonopioides' ? 'green' : 'gray'}-100`);
+                    if (page === pageId) {
+                        btn.classList.add(...antalgiquesButtonColors[page].split(' '));
+                    }
+                });
+            }
+
+            function renderAntalgiquesQuiz() {
+                const container = document.getElementById('qcm-container');
+                if (!container) return;
+                container.innerHTML = '';
+                antalgiquesQuizData.forEach((item, index) => {
+                    const optionsHtml = item.options.map((option, optionIndex) => 
+                        `<button class="qcm-option w-full text-left p-4 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-100 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200" data-index="${optionIndex}">${option}</button>`
+                    ).join('');
+                    container.innerHTML += `<div class="qcm-question bg-slate-100/70 border border-slate-200/80 p-6 rounded-2xl shadow-lg" data-question-index="${index}"><p class="font-semibold text-lg text-slate-800 mb-4">${index + 1}. ${item.question}</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${optionsHtml}</div><div class="qcm-feedback mt-4 text-sm font-medium"></div></div>`;
+                });
+                document.getElementById('quiz-score').textContent = `Prêt ? 0 / ${antalgiquesQuizData.length}`;
+                const resetButton = document.getElementById('reset-button');
+                resetButton.classList.add('opacity-0', 'pointer-events-none');
+            }
+
+            function setupAntalgiquesQuizListeners() {
+                const container = document.getElementById('qcm-container');
+                if (!container) return;
+                container.addEventListener('click', (event) => {
+                    if (!event.target.classList.contains('qcm-option')) return;
+                    const optionButton = event.target;
+                    const questionEl = optionButton.closest('.qcm-question');
+                    if (!questionEl || questionEl.classList.contains('answered')) return;
+                    questionEl.classList.add('answered');
+                    const questionIndex = parseInt(questionEl.dataset.questionIndex, 10);
+                    const questionData = antalgiquesQuizData[questionIndex];
+                    const selectedIndex = parseInt(optionButton.dataset.index, 10);
+                    const isCorrect = selectedIndex === questionData.correct;
+                    const feedbackEl = questionEl.querySelector('.qcm-feedback');
+                    if (isCorrect) {
+                        optionButton.classList.add('correct');
+                        feedbackEl.innerHTML = `<div class="text-emerald-700 p-3 bg-emerald-100 rounded-lg"><b class="font-bold">Bravo !</b> ${questionData.feedback || ''}</div>`;
+                    } else {
+                        optionButton.classList.add('incorrect');
+                        const correctButton = questionEl.querySelector(`[data-index="${questionData.correct}"]`);
+                        correctButton.classList.add('correct');
+                        feedbackEl.innerHTML = `<div class="text-red-700 p-3 bg-red-100 rounded-lg"><b class="font-bold">Dommage.</b> ${questionData.feedback || ''}</div>`;
+                    }
+                    questionEl.querySelectorAll('.qcm-option').forEach(btn => { btn.disabled = true; });
+                    updateAntalgiquesScore();
+                });
+            }
+
+function updateAntalgiquesScore() {
+                const totalQuestions = antalgiquesQuizData.length;
+ 
+                // --- Logique de score corrigée ---
+                const correctAnswers = document.querySelectorAll('#qcm-container .qcm-question.answered .correct').length;
+                 const incorrectAnswers = document.querySelectorAll('#qcm-container .qcm-question.answered .incorrect').length;
+                 const score = correctAnswers - incorrectAnswers;
+                // --- Fin de la correction ---
+
+                const answeredCount = document.querySelectorAll('#qcm-container .qcm-question.answered').length;
+                const scoreEl = document.getElementById('quiz-score');
+
+                 scoreEl.textContent = `Votre score : ${score} / ${answeredCount}`;
+                if (answeredCount === totalQuestions) {
+                    scoreEl.textContent = `Score final : ${score} / ${totalQuestions}`;
+                     const percentage = (score / totalQuestions) * 100;
+                    if (percentage >= 80) { scoreEl.textContent += " - Excellent travail ! 🎉"; } 
+                     else if (percentage >= 50) { scoreEl.textContent += " - Pas mal, continuez à réviser ! 💪"; } 
+                    else { scoreEl.textContent += " - Encore un effort ! 📚"; }
+                    document.getElementById('reset-button').classList.remove('opacity-0', 'pointer-events-none');
+                }
+            }
+
+            function resetAntalgiquesQuiz() { renderAntalgiquesQuiz(); }
+
+            function initializeAntalgiquesModule() {
+                antalgiquesModuleInitialized = true;
+                lucide.createIcons();
+                showAntalgiquesSubPage('douleur');
+                renderAntalgiquesQuiz();
+                setupAntalgiquesQuizListeners();
+
+                document.querySelectorAll('.antalgiques-nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showAntalgiquesSubPage(btn.dataset.page);
+                    });
+                });
+                document.getElementById('reset-button').addEventListener('click', resetAntalgiquesQuiz);
+            }
+
+             // --- ANTIARYTHMIQUES MODULE SPECIFIC LOGIC ---
+             const antiarythmQuizData = [
+{ 
+                question: "Quelle action infirmière est PRIORITAIRE avant l'administration orale d'un Bêta-bloquant (Classe II) ?", 
+                options: ["Contrôler la fréquence cardiaque et la tension artérielle", "Vérifier la dernière selle du patient", "Prendre la glycémie capillaire", "Vérifier la couleur des urines"], 
+                correct: 0, 
+                feedback: "Les Bêta-bloquants sont bradycardisants et hypotenseurs. L'infirmier(ère) doit toujours vérifier que la fréquence cardiaque est supérieure à 50 battements/min et la TA est acceptable avant l'administration." 
+            },
+            { 
+                question: "Un patient sous Amiodarone (Cordarone®, Classe III) se plaint d'une photosensibilité importante. Quel conseil infirmier doit-on lui donner ?", 
+                options: ["Arrêter immédiatement le traitement", "Prendre l'Amiodarone le soir au coucher", "Utiliser une protection solaire importante", "Boire plus d'eau pour éliminer le produit"], 
+                correct: 2, 
+                feedback: "L'Amiodarone est très photosensibilisante et expose à des brûlures graves. La protection solaire doit être rigoureuse et maintenue pendant plusieurs mois après l'arrêt du traitement." 
+            },
+            { 
+                question: "Quel résultat biologique (ionogramme) majore le risque de toxicité des digitaliques et des anti-arythmiques de Classe Ia et III (pro-arythmogènes) ?", 
+                options: ["Hypernatrémie", "Hypokaliémie", "Hypercalcémie", "Hypermagnésémie"], 
+                correct: 1, 
+                feedback: "L'hypokaliémie (taux de potassium bas) potentialise l'effet de ces médicaments et augmente significativement le risque d'arythmies graves, notamment les torsades de pointes." 
+            },
+            { 
+                question: "Un patient sous Bêta-bloquant doit subir une intervention chirurgicale. Quelle est l'attitude recommandée par rapport au traitement dans la majorité des cas ?", 
+                options: ["L'arrêter brutalement 48h avant l'intervention", "Le remplacer par une dose plus faible d'un inhibiteur calcique", "Le maintenir jusqu'à l'intervention", "L'arrêter progressivement sur une semaine"], 
+                correct: 2, 
+                feedback: "Il est crucial de ne pas interrompre brutalement un Bêta-bloquant pour éviter l'effet rebond. Le traitement est généralement maintenu jusqu'à l'intervention, en étroite collaboration avec l'équipe chirurgicale et l'anesthésiste." 
+            },
+            { 
+                question: "Quelle intervention infirmière est associée à la prévention des œdèmes des membres inférieurs chez un patient sous inhibiteur calcique (Classe IV, comme le Diltiazem) ?", 
+                options: ["Limitation des apports en sel", "Élévation des jambes et port de bas de contention si prescrits", "Administration de diurétiques même sans prescription", "Massage énergique des jambes"], 
+                correct: 1, 
+                feedback: "Les œdèmes sont liés à la vasodilatation artérielle périphérique. L'élévation des membres et le port de bas de contention (si prescrits) sont des mesures physiques adaptées pour faciliter le retour veineux." 
+            },
+            { 
+                question: "Un patient sous Bêta-bloquant se plaint de palpitations et d'une fatigue inhabituelle. Quelle complication cardiaque majeure doit-on redouter en priorité ?", 
+                options: ["Une hypotension artérielle sévère", "Une hypokaliémie", "Un trouble de la coagulation", "Une insuffisance cardiaque ou une bradycardie excessive"], 
+                correct: 3, 
+                feedback: "Les Bêta-bloquants réduisent la contractilité du cœur (inotropes négatifs). La fatigue, la dyspnée et les palpitations peuvent être des signes d'insuffisance cardiaque ou d'une bradycardie mal tolérée." 
+            },
+            { 
+                question: "Lorsqu'un patient sous Digoxine signale une 'vision de halos colorés' (dyschromatopsie), quelle est l'action infirmière IMMÉDIATE ?", 
+                options: ["Rassurer le patient, c'est un effet secondaire normal", "Administrer un collyre sur prescription", "Alerter le médecin, cela signe une intoxication digitalique", "Doubler la dose de Digoxine pour améliorer l'efficacité, sur prescription"], 
+                correct: 2, 
+                feedback: "La dyschromatopsie est un signe classique et tardif d'intoxication digitalique. L'infirmier(ère) doit alerter le médecin pour un éventuel dosage de la digoxinémie et un ajustement/arrêt du traitement." 
+            },
+            { 
+                question: "Un patient asthmatique présente une arythmie nécessitant un traitement. Quel anti-arythmique de Classe II est strictement contre-indiqué chez ce patient ?", 
+                options: ["Bisoprolol", "Vérapamil", "Digoxine", "Flécaïnide"], 
+                correct: 0, 
+                feedback: "Le Bisoprolol (et les autres Bêta-bloquants) est contre-indiqué chez l'asthmatique car il peut provoquer un bronchospasme par blocage des récepteurs β₂ bronchiques." 
+            },
+            { 
+                question: "Quelle est la signification de la Règle des 3R des digitaliques ?", 
+                options: ["Régularise, Réduit, Remplace", "Ralenti, Rigidifie, Retourne", "Remplace, Retourne, Ralenti", "Régularise, Renforce, Ralenti"], 
+                correct: 3, 
+                feedback: "Renforce : Augmente la force de contraction du cœur (inotropes positifs). Ralentit : Diminue la fréquence cardiaque (chronotropes négatifs). Régularise : Ralentit la conduction dans le nœud auriculo-ventriculaire." 
+            }
+            ];
+
+            function showAntiarythmSubPage(pageId) {
+                document.querySelectorAll('.antiarythm-page').forEach(page => page.classList.add('hidden'));
+                const activePage = document.getElementById(pageId);
+                if (activePage) activePage.classList.remove('hidden');
+                
+                const gradients = {
+                    classe1: ['from-red-500', 'to-rose-600'],
+                    classe2: ['from-purple-500', 'to-indigo-600'],
+                    classe3: ['from-red-500', 'to-orange-500'],
+                    classe4: ['from-green-500', 'to-emerald-600'],
+                    digitaliques: ['from-amber-500', 'to-yellow-500'],
+                    'quiz-antiarythm': ['from-slate-500', 'to-gray-700'],
+                    synthese: ['from-gray-400', 'to-gray-600'],
+                };
+
+                const allGradientClasses = Object.values(gradients).flat();
+
+                document.querySelectorAll('.antiarythm-nav-btn').forEach(btn => {
+                    const btnPageId = btn.dataset.page;
+                    
+                    btn.classList.remove('bg-gradient-to-r', 'text-white', 'shadow-md', ...allGradientClasses);
+                    btn.classList.add('text-slate-800');
+
+                    if (btnPageId === pageId) {
+                        btn.classList.add('bg-gradient-to-r', 'text-white', 'shadow-md', ...(gradients[pageId] || []));
+                        btn.classList.remove('text-slate-800');
+                    }
+                });
+            }
+
+            function createAARChart() {
+                const canvas = document.getElementById('aarChart');
+                if (!canvas || canvas.chart) return; 
+
+                const chartData = {
+                    labels: ['Ralentissement FC', 'Effet Inotrope', 'Ralentissement Conduction AV', 'Risque Pro-arythmogène', 'Effets Extra-Cardiaques'],
+                    datasets: [
+                        { label: 'Classe I (Flécaïnide)', data: [3, 2, 5, 5, 1], borderColor: 'rgb(244, 63, 94)', backgroundColor: 'rgba(244, 63, 94, 0.2)' }, 
+                        { label: 'Classe II (BB)', data: [5, 2, 4, 2, 4], borderColor: 'rgb(139, 92, 246)', backgroundColor: 'rgba(139, 92, 246, 0.2)' },
+                        { label: 'Classe III (Amiodarone)', data: [4, 1, 3, 4, 5], borderColor: 'rgb(239, 68, 68)', backgroundColor: 'rgba(239, 68, 68, 0.2)' },
+                        { label: 'Classe IV (Vérapamil)', data: [4, 2, 5, 2, 3], borderColor: 'rgb(34, 197, 94)', backgroundColor: 'rgba(34, 197, 94, 0.2)' },
+                        { label: 'Digitaliques (Digoxine)', data: [5, 5, 4, 3, 4], borderColor: 'rgb(245, 158, 11)', backgroundColor: 'rgba(245, 158, 11, 0.2)' }
+                    ]
+                };
+                const chartOptions = { 
+                    scales: { r: { suggestedMin: 0, suggestedMax: 5, ticks: { stepSize: 1 }, pointLabels: { font: { size: 10 } } } }, 
+                    plugins: { legend: { position: 'top' } } 
+                };
+                canvas.chart = new Chart(canvas.getContext('2d'), { type: 'radar', data: chartData, options: chartOptions });
+            }
+
+            function renderAntiarythmQuiz() {
+                const container = document.getElementById('qcm-container-antiarythm');
+                if (!container) return;
+                container.innerHTML = '';
+                antiarythmQuizData.forEach((item, index) => {
+                    const optionsHtml = item.options.map((option, optionIndex) => 
+                        `<button class="qcm-option w-full text-left p-4 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-100 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200" data-index="${optionIndex}">${option}</button>`
+                    ).join('');
+
+                    container.innerHTML += `
+                        <div class="qcm-question bg-slate-100/70 border border-slate-200/80 p-6 rounded-2xl shadow-lg" data-question-index="${index}">
+                            <p class="font-semibold text-lg text-slate-800 mb-4">${index + 1}. ${item.question}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${optionsHtml}</div>
+                            <div class="qcm-feedback mt-4 text-sm font-medium"></div>
+                        </div>`;
+                });
+                document.getElementById('quiz-score-antiarythm').textContent = `Prêt ? 0 / ${antiarythmQuizData.length}`;
+                const resetButton = document.getElementById('reset-button-antiarythm');
+                resetButton.classList.add('opacity-0', 'pointer-events-none');
+            }
+
+            function setupAntiarythmQuizListeners() {
+                const container = document.getElementById('qcm-container-antiarythm');
+                if (!container) return;
+                container.addEventListener('click', (event) => {
+                    if (!event.target.classList.contains('qcm-option')) return;
+                    
+                    const optionButton = event.target;
+                    const questionEl = optionButton.closest('.qcm-question');
+                    if (!questionEl || questionEl.classList.contains('answered')) return;
+                    
+                    questionEl.classList.add('answered');
+                    const questionIndex = parseInt(questionEl.dataset.questionIndex, 10);
+                    const questionData = antiarythmQuizData[questionIndex];
+                    const selectedIndex = parseInt(optionButton.dataset.index, 10);
+                    const isCorrect = selectedIndex === questionData.correct;
+                    const feedbackEl = questionEl.querySelector('.qcm-feedback');
+
+                    if (isCorrect) {
+                        optionButton.classList.add('correct');
+                        feedbackEl.innerHTML = `<p class="text-emerald-600">🎉 Bravo ! ${questionData.feedback || ''}</p>`;
+                    } else {
+                        optionButton.classList.add('incorrect');
+                        const correctButton = questionEl.querySelector(`[data-index="${questionData.correct}"]`);
+                        correctButton.classList.add('correct');
+                        feedbackEl.innerHTML = `<p class="text-red-600">Dommage. ${questionData.feedback || ''}</p>`;
+                    }
+                    
+                    questionEl.querySelectorAll('.qcm-option').forEach(btn => btn.disabled = true);
+                    updateAntiarythmScore();
+                });
+            }
+
+function updateAntiarythmScore() {
+                const totalQuestions = antiarythmQuizData.length;
+
+                 // --- Logique de score corrigée ---
+                const correctAnswers = document.querySelectorAll('#qcm-container-antiarythm .qcm-question.answered .correct').length;
+                const incorrectAnswers = document.querySelectorAll('#qcm-container-antiarythm .qcm-question.answered .incorrect').length;
+                const score = correctAnswers - incorrectAnswers;
+                // --- Fin de la correction ---
+
+                const answeredCount = document.querySelectorAll('#qcm-container-antiarythm .qcm-question.answered').length;
+                const scoreEl = document.getElementById('quiz-score-antiarythm');
+
+                 scoreEl.textContent = `Votre score : ${score} / ${answeredCount}`;
+                if (answeredCount === totalQuestions) {
+                    scoreEl.textContent = `Score final : ${score} / ${totalQuestions}`;
+                    const percentage = (score / totalQuestions) * 100;
+                    if (percentage >= 80) { scoreEl.textContent += " - Excellent travail ! 🎉"; } 
+                    else if (percentage >= 50) { scoreEl.textContent += " - Pas mal, continuez à réviser ! 💪"; } 
+                    else { scoreEl.textContent += " - Encore un effort ! 📚"; }
+                    document.getElementById('reset-button-antiarythm').classList.remove('opacity-0', 'pointer-events-none');
+                 }
+            }
+
+            function resetAntiarythmQuiz() { renderAntiarythmQuiz(); }
+
+            function initializeAntiarythmiquesModule() {
+                antiarythmModuleInitialized = true;
+                lucide.createIcons();
+                showAntiarythmSubPage('classe1');
+                createAARChart();
+                renderAntiarythmQuiz();
+                setupAntiarythmQuizListeners();
+
+// --- ANTI-INFLAMMATOIRES MODULE SPECIFIC LOGIC ---
+function initializeAntiInflamModule() {
+    antiInflamModuleInitialized = true;
+
+    const antiInflamQuizData = [
+        {
+            question: "Quel est l'effet secondaire majeur à surveiller chez un patient sous AINS ?",
+            options: ["L'insuffisance surrénale", "L'ulcère gastro-duodénal", "La rétention hydrosodée", "L'hypotension orthostatique"],
+            correct: 1,
+            feedback: "Les AINS inhibent COX-1, réduisant la protection de la muqueuse gastrique, d'où le risque d'ulcère."
+        },
+        {
+            question: "Quel est le risque principal d'un arrêt brutal des Corticoïdes ?",
+            options: ["Un syndrome de Cushing", "Une crise d'asthme", "Une Insuffisance Surrénale Aiguë", "Une hypersécrétion de cortisol"],
+            correct: 2,
+            feedback: "L'arrêt brutal empêche la glande surrénale de reprendre sa production de cortisol, entraînant un risque vital."
+        },
+        {
+            question: "Quel est le mécanisme d'action des AINS ?",
+            options: ["Inhibition de la Phospholipase A2", "Inhibition de la Cyclooxygénase (COX)", "Inhibition du Facteur Xa", "Stabilisation des membranes"],
+            correct: 1,
+            feedback: "Les AINS inhibent les COX, bloquant la transformation de l'acide arachidonique en prostaglandines."
+        },
+        {
+            question: "Quel est le moment optimal de la prise d'un Corticoïde oral ?",
+            options: ["Le soir au coucher", "À jeun", "Le matin au petit-déjeuner", "Au milieu de la nuit"],
+            correct: 2,
+            feedback: "La prise matinale respecte le pic physiologique de cortisol et diminue le risque d'insomnie."
+        }
+    ];
+
+    const buttonColors = {
+        inflammation: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-md',
+        ains: 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white shadow-md',
+        cortico: 'bg-gradient-to-r from-lime-500 to-green-500 text-white shadow-md',
+        'quiz-inflam': 'bg-gradient-to-r from-slate-500 to-gray-700 text-white shadow-md'
+    };
+
+    function showAntiInflamSubPage(pageId) {
+        document.querySelectorAll('.antiinflam-page').forEach(page => page.classList.add('hidden'));
+        const activePage = document.getElementById(pageId);
+        if (activePage) activePage.classList.remove('hidden');
+
+        const navButtons = document.querySelectorAll('.antiinflam-nav-btn');
+        navButtons.forEach(btn => {
+            const page = btn.dataset.page;
+            // Reset styles
+            btn.className = 'antiinflam-nav-btn w-full py-3 px-2 rounded-lg text-slate-800 font-semibold transition-all duration-300 text-xs sm:text-sm';
+            if (page === pageId) {
+                btn.classList.add(...buttonColors[page].split(' '));
+            }
+        });
+    }
+
+    function renderAntiInflamQuiz() {
+        const container = document.getElementById('qcm-container-inflam');
+        if (!container) return;
+        container.innerHTML = '';
+        antiInflamQuizData.forEach((item, index) => {
+            const optionsHtml = item.options.map((option, optionIndex) =>
+                `<button class="qcm-option w-full text-left p-4 rounded-xl bg-white border-2 border-slate-200 hover:bg-slate-100" data-index="${optionIndex}">${option}</button>`
+            ).join('');
+            container.innerHTML += `<div class="qcm-question" data-question-index="${index}"><p class="font-semibold text-lg text-slate-800 mb-4">${index + 1}. ${item.question}</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${optionsHtml}</div><div class="qcm-feedback mt-4 text-sm font-medium"></div></div>`;
+        });
+        document.getElementById('quiz-score-inflam').textContent = `Prêt ? 0 / ${antiInflamQuizData.length}`;
+        document.getElementById('reset-button-inflam').classList.add('opacity-0', 'pointer-events-none');
+    }
+
+    function setupAntiInflamQuizListeners() {
+        const container = document.getElementById('qcm-container-inflam');
+        container.addEventListener('click', (event) => {
+            if (!event.target.classList.contains('qcm-option')) return;
+            const optionButton = event.target;
+            const questionEl = optionButton.closest('.qcm-question');
+            if (!questionEl || questionEl.classList.contains('answered')) return;
+            questionEl.classList.add('answered');
+            
+            const questionIndex = parseInt(questionEl.dataset.questionIndex, 10);
+            const questionData = antiInflamQuizData[questionIndex];
+            const selectedIndex = parseInt(optionButton.dataset.index, 10);
+            const isCorrect = selectedIndex === questionData.correct;
+            const feedbackEl = questionEl.querySelector('.qcm-feedback');
+
+            if (isCorrect) {
+                optionButton.classList.add('correct');
+                feedbackEl.innerHTML = `<p class="text-emerald-600">🎉 Bravo ! ${questionData.feedback}</p>`;
+            } else {
+                optionButton.classList.add('incorrect');
+                const correctButton = questionEl.querySelector(`[data-index="${questionData.correct}"]`);
+                correctButton.classList.add('correct');
+                feedbackEl.innerHTML = `<p class="text-red-600">Dommage. ${questionData.feedback}</p>`;
+            }
+            questionEl.querySelectorAll('.qcm-option').forEach(btn => btn.disabled = true);
+            updateAntiInflamScore();
+        });
+    }
+    
+    function updateAntiInflamScore() {
+        const totalQuestions = antiInflamQuizData.length;
+        const correctAnswers = document.querySelectorAll('#qcm-container-inflam .qcm-option.correct').length;
+        const answeredCount = document.querySelectorAll('#qcm-container-inflam .qcm-question.answered').length;
+        const scoreEl = document.getElementById('quiz-score-inflam');
+        scoreEl.textContent = `Score : ${correctAnswers} / ${answeredCount}`;
+        
+        if (answeredCount === totalQuestions) {
+             document.getElementById('reset-button-inflam').classList.remove('opacity-0', 'pointer-events-none');
+        }
+    }
+
+    // Initial setup for the module
+    showAntiInflamSubPage('inflammation');
+    renderAntiInflamQuiz();
+    setupAntiInflamQuizListeners();
+
+    document.querySelectorAll('.antiinflam-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => showAntiInflamSubPage(btn.dataset.page));
+    });
+    document.getElementById('reset-button-inflam').addEventListener('click', renderAntiInflamQuiz);
+}
+
+
+
+                document.querySelectorAll('.antiarythm-nav-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showAntiarythmSubPage(btn.dataset.page);
+                    });
+                });
+                document.getElementById('reset-button-antiarythm').addEventListener('click', resetAntiarythmQuiz);
+            }
+        });
+    </script>
+
+</footer>
+</div>
+
+<script>
+    // Cette fonction charge la sidebar et initialise ses fonctionnalités
+    function loadSidebar() {
+        fetch('sidebar.html') // 1. Récupère le fichier sidebar.html
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Le fichier sidebar.html n'a pas pu être chargé.");
+                }
+                return response.text(); // 2. Convertit la réponse en texte (code HTML)
+            })
+            .then(html => {
+                // 3. Injecte le HTML dans le conteneur prévu
+                document.getElementById('sidebar-container').innerHTML = html;
+
+                // 4. IMPORTANT : Ré-initialise les fonctionnalités qui dépendent de la sidebar
+                // Les icônes Feather doivent être rechargées car le HTML vient d'être ajouté
+                feather.replace(); 
+                
+                // On relance la logique de navigation qui se trouve dans votre autre script
+                setupNavigationLogic(); 
+            })
+            .catch(error => {
+                console.error("Erreur lors du chargement de la sidebar:", error);
+                document.getElementById('sidebar-container').innerHTML = "<p class='p-4 text-red-500'>Erreur de chargement du menu.</p>";
+            });
+    }
+
+    // Appelle la fonction au chargement de la page
+    document.addEventListener('DOMContentLoaded', loadSidebar);
+</script>
+
+<script>
+    // On met toute la logique de navigation dans une fonction pour pouvoir l'appeler après le chargement de la sidebar
+    function setupNavigationLogic() {
+        // --- Feather Icons Initialization ---
+        // feather.replace(); // On le déplace dans la fonction loadSidebar pour qu'il s'exécute au bon moment
+
+        // --- Sidebar and Main Navigation Logic ---
+        const mainContent = document.getElementById('main-content');
+        // ... tout le reste de votre code JavaScript existant ...
+        // ... de "const mainTitle = document.getElementById('main-title');"
+        // ... jusqu'à la fin du fichier.
+    }
+
+    // Votre code existant attendait DOMContentLoaded, maintenant c'est la fonction loadSidebar qui le fait.
+    // On peut donc enlever ou commenter l'ancien "document.addEventListener('DOMContentLoaded', () => { ... });"
+    // qui entourait tout votre code. La fonction setupNavigationLogic() remplace cet événement.
+</script>
+
 </body>
 </html>
